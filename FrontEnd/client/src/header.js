@@ -20,9 +20,9 @@ function Header() {
 
     return (
         <header>
-            <button onClick={navigateMain} className={header_style.Main}>Main</button>
-            <button onClick={navigateAbout} className={header_style.About}>About</button>
-            <button onClick={navigateTours} className={header_style.Tours}>Tours</button>
+            <button onClick={navigateAbout} className={header_style.About}>Про нас</button>
+            <button onClick={navigateMain} className={header_style.Main}>Головна</button>
+            <button onClick={navigateTours} className={header_style.Tours}>Тури</button>
         </header>
     )
 }
