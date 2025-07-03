@@ -4,7 +4,7 @@ function useTourCards() {
   const [tours, setTours] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/tours') 
+    fetch('http://localhost:3001/tours')
       .then(response => {
         if (!response.ok) {
           throw new Error('Помилка при завантаженні турів');
