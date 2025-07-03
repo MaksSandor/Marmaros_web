@@ -19,9 +19,9 @@ function Header() {
 
     return (
         <header>
-            <button onClick={navigateMain}>Main</button>
-            <button onClick={navigateAbout}>About</button>
-            <button onClick={navigateTours}>Tours</button>
+            <button onClick={navigateMain} className={header_style.Main}>Main</button>
+            <button onClick={navigateAbout} className={header_style.About}>About</button>
+            <button onClick={navigateTours} className={header_style.Tours}>Tours</button>
         </header>
     )
 }

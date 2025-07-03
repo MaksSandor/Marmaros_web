@@ -14,7 +14,6 @@ function useTourCards() {
       .then(data => setTours(data))
       .catch(error => console.error('Помилка при fetch:', error));
   }, []);
-
   return tours;
 }
 

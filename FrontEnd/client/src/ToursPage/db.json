@@ -1,0 +1,58 @@
+{
+  "tours": [
+    {
+      "mp4": "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
+      "id": 1,
+      "name": "Драгобрат-Шаян",
+      "img": "https://picsum.photos/200",
+      "price": 3000,
+      "freePlaces": 5,
+      "maxPlaces": 20
+    },
+    {
+      "mp4": "https://videos.pexels.com/video-files/5061410/5061410-uhd_2560_1440_30fps.mp4",
+      "id": 2,
+      "name": "Спа-Закарпаття",
+      "img": "https://picsum.photos/201",
+      "price": 2500,
+      "freePlaces": 2,
+      "maxPlaces": 15
+    },
+    {
+      "mp4": "https://videos.pexels.com/video-files/32701429/13941233_1440_2560_30fps.mp4",
+      "id": 3,
+      "name": "День Незалежності України",
+      "img": "https://picsum.photos/202",
+      "price": 3500,
+      "freePlaces": 16,
+      "maxPlaces": 40
+    },
+    {
+      "mp4": "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
+      "id": 4,
+      "name": "Карпати",
+      "img": "https://picsum.photos/200",
+      "price": 3000,
+      "freePlaces": 5,
+      "maxPlaces": 20
+    },
+    {
+      "mp4": "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
+      "id": 5,
+      "name": "Одеса",
+      "img": "https://picsum.photos/201",
+      "price": 2500,
+      "freePlaces": 2,
+      "maxPlaces": 15
+    },
+    {
+      "mp4": "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
+      "id": 6,
+      "name": "Київ",
+      "img": "https://picsum.photos/202",
+      "price": 3500,
+      "freePlaces": 16,
+      "maxPlaces": 40
+    }
+  ]
+}
