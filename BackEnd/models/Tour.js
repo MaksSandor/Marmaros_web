@@ -5,7 +5,9 @@ const tourSchema = new mongoose.Schema({
   img: String,
   price: Number,
   freePlaces: Number,
-  maxPlaces: Number
+  maxPlaces: Number,
+  mp4: String // 🆕 нове поле для відео
 });
 
 module.exports = mongoose.model("Tour", tourSchema);
+
