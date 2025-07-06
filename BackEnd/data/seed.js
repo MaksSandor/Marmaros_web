@@ -7,7 +7,7 @@ const tours = [
     mp4: "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
     id: 1,
     name: "Драгобрат",
-    img: "https://picsum.photos/200",
+    img: "/uploads/dragobrat.jpg",
     price: 4300,
     freePlaces: 5,
     maxPlaces: 20,
@@ -109,7 +109,7 @@ const tours = [
     mp4: "https://videos.pexels.com/video-files/5061410/5061410-uhd_2560_1440_30fps.mp4",
     id: 2,
     name: "Спа-тур Шаян",
-    img: "https://picsum.photos/201",
+    img:"/uploads/shayan.jpg",
     price: 4200,
     freePlaces: 2,
     maxPlaces: 15,
@@ -158,7 +158,7 @@ const tours = [
     mp4: "https://videos.pexels.com/video-files/32701429/13941233_1440_2560_30fps.mp4",
     id: 3,
     name: "День Незалежності в Карпатах",
-    img: "https://picsum.photos/202",
+    img:  "/uploads/nezalegnist.jpg",
     price: 5200,
     freePlaces: 16,
     maxPlaces: 40,
@@ -207,7 +207,7 @@ const tours = [
     mp4: "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
     id: 4,
     name: "Карпати «Тур вихідного дня»",
-    img: "https://picsum.photos/200",
+    img: "/uploads/weekend.jpg",
     price: 3800,
     freePlaces: 5,
     maxPlaces: 20,
@@ -256,7 +256,7 @@ const tours = [
     mp4: "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
     id: 5,
     name: "Одеса",
-    img: "https://picsum.photos/201",
+    img: "/uploads/odesa.jpg",
     price: 3900,
     freePlaces: 2,
     maxPlaces: 15,
@@ -303,7 +303,7 @@ const tours = [
     mp4: "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
     id: 6,
     name: "Київ",
-    img: "https://picsum.photos/202",
+    img: "/uploads/kyiv.jpg",
     price: 3600,
     freePlaces: 16,
     maxPlaces: 40,
@@ -351,12 +351,19 @@ const tours = [
 ];
 
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(async () => {
-    await Tour.deleteMany({});
-    await Tour.insertMany(tours);
-    console.log("✅ Data seeded with video links");
-    process.exit();
-  })
-  .catch(err => console.error("❌ Error seeding data:", err));
+async function seed() {
+  await mongoose.connect(process.env.MONGO_URI);
+  console.log('✅ Connected to MongoDB');
 
+  await Tour.deleteMany({});
+  console.log('🗑️ Old tours removed');
+
+  await Tour.insertMany(tours);
+  console.log('✅ New tours seeded');
+  process.exit();
+}
+
+seed().catch(err => {
+  console.error('❌ Error seeding data:', err);
+  process.exit(1);
+});
