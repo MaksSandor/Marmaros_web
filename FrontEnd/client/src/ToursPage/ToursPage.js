@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../header";
+import Header from "../headerImg/header";
 import useTourCards from "./useTourCards"; 
 import style_cards from "./cards_style.module.css";
 import style_page from "./page_style.module.css";

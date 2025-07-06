@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+
+header {
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 300px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    background-color: bisque;
+}
+
+button {
+    width: 130px;
+    height: 50px;
+    border-style: solid;
+    border-radius: 15px;
+    border-top: 0;
+    border-color: rgb(253, 211, 211);
+    background-color: rgb(70, 70, 70);
+    color: white;
+    font-family: "Lobster", sans-serif;
+    padding-top: 10px;
+    font-size: 25px;
+    opacity: 0.5;
+    transform: translateY(-20px);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: translateY(1px);
+    opacity: 1;
+    background-color: rgb(22, 22, 22);
+}
+
+.Tours, .About {
+    width: 100px;
+}
+
+img {
+    width: 30px;
+    height: 30px;
+    display:inline;
+}
+
+.phone_block {
+    width: 170px;
+    height: 5px;
+    display: flex;
+    border-left: solid 1px rgb(255, 255, 255);
+    border-right: solid 1px rgb(255, 255, 255);
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 40px;
+}
+
+.phone_block img {
+    transform: translateY(12px);
+    padding-right: 10px;
+    filter:invert(1);
+}
+
+.phone_block p {
+    font-weight: 700;
+    color: white;
+}
+
+.social_block {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.social_block img {
+    border-right: 1px solid rgb(0, 0, 0);
+    padding-right: 16px;
+    cursor: pointer;
+    filter:invert(1);
+}
+
+.social_block img:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+
+.top_block {
+    display: flex;
+    gap: 1100px;
+    padding-bottom: 50px;
+}
+
+.bottom_block {
+    display:flex;
+    gap:400px;
+}
+
+.pages_block {
+    padding-top: 180px;
+    display:flex;
+    gap: 20px;
+}
+
+.marmarlogo {
+    width: 175px;
+    height: 175px;
+    padding: 0;
+    margin: 0;
+    padding-top: 25px;
+    cursor: pointer;
+}
+
+
