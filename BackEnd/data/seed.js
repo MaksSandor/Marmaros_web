@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 const Tour = require('../models/Tour'); 
 const tours = [
   {
-    mp4: "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
+    mp4: "/uploads/videos/dragobrat.mp4",
     id: 1,
     name: "Драгобрат",
-    img: "/uploads/dragobrat.jpg",
+    img: "/uploads/photos/dragobrat.jpg",
     price: 4300,
     freePlaces: 5,
     maxPlaces: 20,
@@ -106,10 +106,10 @@ const tours = [
 
   },
   {
-    mp4: "https://videos.pexels.com/video-files/5061410/5061410-uhd_2560_1440_30fps.mp4",
+mp4: "/uploads/videos/shayan.mp4",
     id: 2,
     name: "Спа-тур Шаян",
-    img:"/uploads/shayan.jpg",
+    img:"/uploads/photos/shayan.jpg",
     price: 4200,
     freePlaces: 2,
     maxPlaces: 15,
@@ -155,10 +155,10 @@ const tours = [
 
   },
   {
-    mp4: "https://videos.pexels.com/video-files/32701429/13941233_1440_2560_30fps.mp4",
+mp4: "/uploads/videos/nezalegnist.mp4",
     id: 3,
     name: "День Незалежності в Карпатах",
-    img:  "/uploads/nezalegnist.jpg",
+    img:  "/uploads/photos/nezalegnist.jpg",
     price: 5200,
     freePlaces: 16,
     maxPlaces: 40,
@@ -204,10 +204,10 @@ const tours = [
 
   },
   {
-    mp4: "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
+mp4: "/uploads/videos/holiday.mp4",
     id: 4,
     name: "Карпати «Тур вихідного дня»",
-    img: "/uploads/weekend.jpg",
+    img: "/uploads/photos/weekend.jpg",
     price: 3800,
     freePlaces: 5,
     maxPlaces: 20,
@@ -253,10 +253,10 @@ const tours = [
 
   },
   {
-    mp4: "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
+mp4: "/uploads/videos/odesa.mp4",
     id: 5,
     name: "Одеса",
-    img: "/uploads/odesa.jpg",
+    img: "/uploads/photos/odesa.jpg",
     price: 3900,
     freePlaces: 2,
     maxPlaces: 15,
@@ -300,10 +300,10 @@ const tours = [
 
   },
   {
-    mp4: "https://videos.pexels.com/video-files/31763264/13532053_2560_1440_30fps.mp4",
+mp4: "/uploads/videos/kyiv.mp4",
     id: 6,
     name: "Київ",
-    img: "/uploads/kyiv.jpg",
+    img: "/uploads/photos/kyiv.jpg",
     price: 3600,
     freePlaces: 16,
     maxPlaces: 40,
