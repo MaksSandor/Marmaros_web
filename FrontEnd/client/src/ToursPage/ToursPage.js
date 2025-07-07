@@ -17,7 +17,7 @@ function TourPage() {
                         <source src={tour.mp4} type="video/mp4" />
                         Відео не завантажене.
                     </video>
-                    <img src={tour.img} alt={tour.name} className={style_cards.img} />
+                    <img src={tour.img} alt={tour.name} className={style_cards.img}/>
                     <h1 className={style_cards.title}>{tour.name}</h1>
                     <div className={style_cards.places}>
                         <p className={style_cards.free}>Вільних місць: <span>{tour.freePlaces}</span></p>

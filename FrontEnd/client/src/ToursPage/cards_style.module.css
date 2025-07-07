@@ -47,6 +47,8 @@
     width: 220px;
     height: 200px;
     border: 4px solid rgb(241, 246, 208);
+    z-index: 5;
+    position: relative;
 }
 
 .title {

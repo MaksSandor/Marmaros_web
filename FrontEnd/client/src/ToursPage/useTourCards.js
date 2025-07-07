@@ -11,9 +11,17 @@ function useTourCards() {
         }
         return response.json();
       })
-      .then(data => setTours(data))
+      .then(data => {
+  const fixedData = data.map(tour => ({
+    ...tour,
+    img: `http://localhost:3001${tour.img}`
+  }));
+  console.log("RAW DATA FROM SERVER:", data);
+  setTours(fixedData);
+})
       .catch(error => console.error('Помилка при fetch:', error));
   }, []);
+
   return tours;
 }
 
