@@ -10,6 +10,9 @@ function TourPage() {
   return (
     <div className={style_page.page}>
       <Header />
+      <div className={style_page.background}>
+
+      </div>
       <div className={style_cards.cards_place}>
           {tours.map((tour) => (
                 <div key={tour.id} className={style_cards.card}>

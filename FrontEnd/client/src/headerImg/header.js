@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import header_style from './header_style.module.css'
 import phoneLogo from "./phone.png"
 import facebookLogo from "./facebook.png"
@@ -7,8 +6,13 @@ import shopLogo from "./shop.png"
 import searchLogo from "./search.png"
 import marmarosLogo from "./marmaros.png";
 import backgroundImg from "./bg.jpg"
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 function Header() {
+
+    const location = useLocation();
+
 
     const navigate = useNavigate();
 
@@ -52,16 +56,49 @@ function Header() {
                 <img src={marmarosLogo} alt="MarMaros" className={header_style.marmarlogo}/>
                 
                 <div className={header_style.pages_block}>
-                <button onClick={navigateMain} className={header_style.Main}>Головна</button>
-                <button onClick={navigateTours} className={header_style.Tours}>Тури</button>
-                <button onClick={navigateAbout} className={header_style.About}>Про нас</button>
-                <button onClick={navigateTours} className={header_style.Galery}>Галерея</button>
-                <button onClick={navigateTours} className={header_style.News}>Новини</button>
-                <button onClick={navigateTours} className={header_style.Contacts}>Контакти</button>
-                </div>
-            </div>
-            
+                    <button
+                      onClick={navigateMain}
+                      className={`${header_style.Main} ${location.pathname === '/' ? header_style.active : ''}`}
+                    >
+                      Головна
+                    </button>
 
+                    <button
+                      onClick={navigateTours}
+                      className={`${header_style.Tours} ${location.pathname === '/tours' ? header_style.active : ''}`}
+                    >
+                      Тури
+                    </button>
+
+                    <button
+                      onClick={navigateAbout}
+                      className={`${header_style.About} ${location.pathname === '/about' ? header_style.active : ''}`}
+                    >
+                      Про нас
+                    </button>
+
+                    <button
+                      onClick={navigateTours}
+                      className={`${header_style.Galery} ${location.pathname === '/galery' ? header_style.active : ''}`}
+                    >
+                      Галерея
+                    </button>
+
+                    <button
+                      onClick={navigateTours}
+                      className={`${header_style.News} ${location.pathname === '/news' ? header_style.active : ''}`}
+                    >
+                      Новини
+                    </button>
+
+                    <button
+                      onClick={navigateTours}
+                      className={`${header_style.Contacts} ${location.pathname === '/contacts' ? header_style.active : ''}`}
+                    >
+                      Контакти
+                    </button>
+                </div>
+            </div>            
         </header>
     )
 }
