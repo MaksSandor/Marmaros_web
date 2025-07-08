@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import AboutPage from "./AboutPage/AboutPage";
 import MainPage from "./MainPage/MainPage";
 import TourPage from "./ToursPage/ToursPage";
+import TourDetailsPage from "./ToursPage/TourDetailsPage";
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/" element={<MainPage />} />
                 <Route path="/tours" element={<TourPage />} />
                 <Route path="/about" element={<AboutPage />} />
+                <Route path="/tours/:name" element={<TourDetailsPage />} />
             </Routes>
         </Router>
     )
