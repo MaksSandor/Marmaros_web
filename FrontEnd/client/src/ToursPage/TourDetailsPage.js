@@ -34,7 +34,7 @@ function TourDetailsPage() {
             <p className={style.free}>Вільних місць: {tour.freePlaces}</p>
             <p className={style.max}>Макс. місць: {tour.maxPlaces}</p>
             <p className={style.price}>Ціна: {tour.price} грн</p>
-            <p>{tour.descr}</p>
+            <p>{tour.about}</p>
         </div>
       </div>
     </div>
