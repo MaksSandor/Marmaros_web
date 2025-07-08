@@ -34,6 +34,7 @@ function Header() {
                 backgroundImage: `url(${backgroundImg})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'
+                
             }}
         >
 
