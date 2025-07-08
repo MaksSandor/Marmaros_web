@@ -29,15 +29,8 @@ function Header() {
     };
 
     return (   
-        <header
-            style ={{
-                backgroundImage: `url(${backgroundImg})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-                
-            }}
-        >
-
+        <header>
+          <div className={header_style.background}></div>
             <div className={header_style.top_block}>
                 <div className={header_style.phone_block}>
                     <img src={phoneLogo}  alt="Phone logo"/>

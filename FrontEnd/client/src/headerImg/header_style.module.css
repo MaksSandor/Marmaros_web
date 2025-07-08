@@ -12,12 +12,22 @@ header {
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    background-color: bisque;
     border-bottom: 2px dotted rgba(255, 255, 255, 0.649);
     position: sticky;
     top: 0;
-    z-index: 1000;
-    
+    z-index: 1000; 
+}
+
+.background {
+    background-image: url("./bg.jpg");
+    width: 100%;
+    height:170px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
 }
 
 
@@ -26,18 +36,18 @@ button {
     background-image: url("./button.png");
     background-position: center;
     width: 110px;
-    height: 50px;
+    height: 40px;
     border-style: solid;
     border-radius: 15px;
     border-top: 0;
     border-color: rgb(155, 155, 155);
     background-color: rgb(70, 70, 70);
-    color: rgb(173, 173, 173);
+    color: rgb(205, 205, 205);
     font-family: "Tinos", sans-serif;
     padding-top: 10px;
     font-size: 25px;
-    opacity: 0.7;
-    transform: translateY(-20px);
+    opacity: 0.8;
+    transform: translateY(-10px);
     transition: 0.5s;
     cursor: pointer;
     font-weight: 600;
@@ -62,8 +72,8 @@ button:hover {
 
 .active {
     transform: translateY(1px);
-    opacity: 0.8;
-    color: rgb(186, 186, 186);
+    opacity: 0.9;
+    color: rgb(255, 255, 255);
     border-color: rgb(255, 255, 255);
     background-color: rgb(22, 22, 22);
     box-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
@@ -71,6 +81,10 @@ button:hover {
 
 .About, .Contacts {
     width: 130px;
+}
+
+.About {
+    margin-right: 70px;
 }
 
 img {
@@ -97,6 +111,7 @@ img {
 }
 
 .phone_block p {
+    padding-top: 15px;
     font-weight: 700;
     color: white;
 }
