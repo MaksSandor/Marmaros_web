@@ -6,6 +6,7 @@ const tourSchema = new mongoose.Schema({
   price: Number,
   freePlaces: Number,
   maxPlaces: Number,
+  about:String,
   mp4: String // 🆕 нове поле для відео
 });
 
