@@ -8,14 +8,18 @@ import marmarosLogo from "./marmaros.png";
 import backgroundImg from "./bg.jpg"
 import { useNavigate, useLocation } from 'react-router-dom';
 import {checkSignIn, SignInForm} from "./accaunt";
+import { useState } from 'react';
 
 
 function Header() {
 
+    const [loginForm, setLoginForm] = useState(false);
     const location = useLocation();
-
-
     const navigate = useNavigate();
+
+    const useLogin = () => {
+      setLoginForm(!loginForm);
+    }
 
     const navigateMain = () => {
         navigate('/');
@@ -40,7 +44,8 @@ function Header() {
             
 
                 <div className={header_style.social_block}>
-                    <button className={header_style.buttonSign} onClick={SignInForm}>{checkSignIn()?"":"Увійти"}</button>
+                    {loginForm? <SignInForm />: ""}
+                    <button className={header_style.buttonSign} onClick={useLogin}>{checkSignIn()?"":"Увійти"}</button>
                     <img src={facebookLogo} alt="facebook"/>
                     <img src={shopLogo} alt="Shoping"/>
                     <img src={searchLogo} alt="search"/>

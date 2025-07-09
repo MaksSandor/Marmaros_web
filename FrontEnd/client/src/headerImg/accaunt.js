@@ -15,9 +15,9 @@ function SignInForm() {
 
     return (
         <div className={style.SignBlock}>
-            <input className={style.gmailInput}/>
-            <input className={style.passInput}/>
-            <button>Увійти</button>
+            <input className={style.gmailInput} placeholder="Your email"/>
+            <input className={style.passInput} placeholder="Password"/>
+            <button className={style.SignInBtn}>Увійти</button>
         </div>
     )
 }
