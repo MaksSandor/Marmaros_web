@@ -8,14 +8,16 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
-
 // Routes
 const toursRoute = require("./routes/tours");
 app.use("/tours", toursRoute);
 
+const userRoutes = require('./routes/users');
+app.use('/users', userRoutes);
+
 // DB connection
 mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB connected"))
+  .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error(err));
 
 // Start server
