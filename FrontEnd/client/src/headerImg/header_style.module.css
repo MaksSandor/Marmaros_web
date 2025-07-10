@@ -156,7 +156,7 @@ img {
 
 .top_block {
     display: flex;
-    gap: 960px;
+    gap: 700px;
 }
 
 .bottom_block {
@@ -188,9 +188,32 @@ img {
     all: unset;
     width: 80px;
     height: 40px;
-    color: rgb(255, 255, 255);
+    color: rgb(255, 227, 174);
     font-family: "Tinos", sans-serif;
-    font-size: 30px;
+    font-size: 25px;
+    transition: 0.5s;
+    cursor: pointer;
+    font-weight: 600;
+    z-index: 2;
+    padding-right: 20px;
+
+}
+
+.buttonSign:hover {
+    width: 80px;
+    color:#ffffff;
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: none;
+    font-size:27px;
+}
+
+.buttonReg {
+    all: unset;
+    width: 200px;
+    height: 40px;
+    color: rgb(255, 227, 174);
+    font-family: "Tinos", sans-serif;
+    font-size: 25px;
     transition: 0.5s;
     cursor: pointer;
     font-weight: 600;
@@ -198,9 +221,10 @@ img {
     padding-right: 20px;
 }
 
-.buttonSign:hover {
-    width: 100px;
-    color:#e8b32e;
+.buttonReg:hover {
+    font-size:27px;
+    width: 200px;
+    color:#ffffff;
     background-color: rgba(255, 255, 255, 0);
     box-shadow: none;
 }

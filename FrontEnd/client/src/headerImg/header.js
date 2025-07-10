@@ -1,25 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import header_style from './header_style.module.css'
 import phoneLogo from "./phone.png"
 import facebookLogo from "./facebook.png"
 import shopLogo from "./shop.png"
 import searchLogo from "./search.png"
 import marmarosLogo from "./marmaros.png";
-import backgroundImg from "./bg.jpg"
+import userLogo from "./user.png";
 import { useNavigate, useLocation } from 'react-router-dom';
-import {checkSignIn, SignInForm} from "./accaunt";
+import {checkSignIn, SignInForm, RegisterForm} from "./accaunt";
 import { useState } from 'react';
 
 
 function Header() {
 
     const [loginForm, setLoginForm] = useState(false);
+    const [regForm, setRegForm] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
     const useLogin = () => {
       setLoginForm(!loginForm);
     }
+
+    const useReg = () => {
+      setRegForm(!regForm);
+    }
+
+    useEffect(() => {setRegForm(false)}, [loginForm]);
+    useEffect(() => {setLoginForm(false)}, [regForm]);
 
     const navigateMain = () => {
         navigate('/');
@@ -44,8 +52,14 @@ function Header() {
             
 
                 <div className={header_style.social_block}>
-                    {loginForm? <SignInForm />: ""}
-                    <button className={header_style.buttonSign} onClick={useLogin}>{checkSignIn()?"":"Увійти"}</button>
+                    <SignInForm isVisible={loginForm} />
+                    <RegisterForm isVisible={regForm} />
+                    {!checkSignIn?<img className={header_style.user_logo}src={userLogo}/>: 
+                      <>
+                      <button className={header_style.buttonSign} onClick={useLogin}>Увійти</button>
+                      <button className={header_style.buttonReg} onClick={useReg}>Зареєструватись</button>
+                      </>
+                    }
                     <img src={facebookLogo} alt="facebook"/>
                     <img src={shopLogo} alt="Shoping"/>
                     <img src={searchLogo} alt="search"/>
