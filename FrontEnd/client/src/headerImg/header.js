@@ -54,12 +54,15 @@ function Header() {
                 <div className={header_style.social_block}>
                     <SignInForm isVisible={loginForm} />
                     <RegisterForm isVisible={regForm} />
-                    {!checkSignIn?<img className={header_style.user_logo}src={userLogo}/>: 
+                    {checkSignIn() ? (
+                      <img className={header_style.user_logo} src={userLogo} />
+                    ) : (
                       <>
-                      <button className={header_style.buttonSign} onClick={useLogin}>Увійти</button>
-                      <button className={header_style.buttonReg} onClick={useReg}>Зареєструватись</button>
+                        <button className={header_style.buttonSign} onClick={useLogin}>Увійти</button>
+                        <button className={header_style.buttonReg} onClick={useReg}>Зареєструватись</button>
                       </>
-                    }
+                    )}
+
                     <img src={facebookLogo} alt="facebook"/>
                     <img src={shopLogo} alt="Shoping"/>
                     <img src={searchLogo} alt="search"/>

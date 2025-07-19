@@ -33,7 +33,7 @@ function SignInForm({ isVisible }) {
   }
 
   const Login = () => {
-    const found = users.find(u => u.gmail === gmail && u.pass === pass);
+    const found = users.find(u => u.gmail === gmail && u.password === pass);
 
     if (found) {
       localStorage.setItem("user", JSON.stringify(found));
@@ -68,7 +68,7 @@ function RegisterForm({ isVisible }) {
       return;
     }
 
-    const newUser = { pib, gmail, pass };
+    const newUser = { PIB: pib, gmail, password: pass }
 
     fetch('http://localhost:3001/users', {
       method: 'POST',
@@ -85,7 +85,7 @@ function RegisterForm({ isVisible }) {
         alert("Реєстрація успішна!");
         // Можеш зразу залогінити користувача:
         localStorage.setItem("user", JSON.stringify(data));
-        window.location.reload();
+        window.dispatchEvent(new Event("storage"));
       })
       .catch(error => {
         console.error(error);

@@ -229,4 +229,20 @@ img {
     box-shadow: none;
 }
 
+.user_logo {
+    margin-left: 300px;
+    border-right: 1px solid rgb(0, 0, 0);
+    padding-right: 16px;
+    cursor: pointer;
+    filter:invert(1);
+    z-index: 2;
+    transition: 0.3s;
+    width: 30px;
+    height: auto;
+}
+
+.user_logo:hover {
+    padding-right: 25px;
+    padding-left: 10px;
+}
 
