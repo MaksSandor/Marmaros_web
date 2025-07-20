@@ -7,7 +7,7 @@ import searchLogo from "./search.png"
 import marmarosLogo from "./marmaros.png";
 import userLogo from "./user.png";
 import { useNavigate, useLocation } from 'react-router-dom';
-import {checkSignIn, SignInForm, RegisterForm} from "./accaunt";
+import {checkSignIn, SignInForm, RegisterForm, getPib} from "./accaunt";
 import { useState } from 'react';
 
 
@@ -17,6 +17,7 @@ function Header() {
     const [regForm, setRegForm] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
+    const pib = getPib();
 
     const useLogin = () => {
       setLoginForm(!loginForm);
@@ -55,7 +56,7 @@ function Header() {
                     <SignInForm isVisible={loginForm} />
                     <RegisterForm isVisible={regForm} />
                     {checkSignIn() ? (
-                      <img className={header_style.user_logo} src={userLogo} />
+                      <img className={header_style.user_logo} src={userLogo}  onClick={() => navigate(`/${pib}`)}/>
                     ) : (
                       <>
                         <button className={header_style.buttonSign} onClick={useLogin}>Увійти</button>

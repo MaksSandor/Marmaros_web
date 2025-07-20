@@ -4,6 +4,7 @@ import AboutPage from "./AboutPage/AboutPage";
 import MainPage from "./MainPage/MainPage";
 import TourPage from "./ToursPage/ToursPage";
 import TourDetailsPage from "./ToursPage/TourDetailsPage";
+import Profile from "./headerImg/profile";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/tours" element={<TourPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/tours/:name" element={<TourDetailsPage />} />
+                <Route path="/:PIB" element={<Profile />} />
             </Routes>
         </Router>
     )

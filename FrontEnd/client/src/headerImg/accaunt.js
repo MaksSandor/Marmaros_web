@@ -103,5 +103,14 @@ function RegisterForm({ isVisible }) {
   )
 }
 
+function getPib() {
+  const user = localStorage.getItem("user");
+  if (!user) return null;
 
-export { checkSignIn, SignInForm, RegisterForm };
+  const parsed = JSON.parse(user);
+  return parsed.user?.PIB || null;
+}
+
+
+
+export { checkSignIn, SignInForm, RegisterForm, getPib};
