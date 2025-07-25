@@ -72,6 +72,12 @@
 .price, .free, .max {
     padding: 20px;
     font-size: 40px;
-    font-weight: 600;
-    color:rgb(255, 255, 255);
+    font-weight: 400;
+    color:rgb(0, 0, 0);
+}
+
+.disc {
+  font-size: 30px;
+  width: 800px;
+  margin-left: 125px;
 }
