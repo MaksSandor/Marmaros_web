@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../headerImg/header";
+import style from "./profileStyle.module.css";
+import userPh from "./user.png";
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -32,26 +34,16 @@ function Profile() {
   }
 
   return (
-    <div>
+    <div className={style.bg}>
       <Header />
-      <div style={{ padding: "30px", textAlign: "center" }}>
+      <div className={style.Container}>
+        <img src={userPh} className={style.userPh}/>
         <h1>Профіль користувача</h1>
         <p><strong>ПІБ:</strong> {user.PIB}</p>
         <p><strong>Email:</strong> {user.gmail}</p>
         <button
           onClick={handleLogout}
-          style={{
-            marginTop: "20px",
-            padding: "10px 20px",
-            fontSize: "18px",
-            backgroundColor: "black",
-            color: "white",
-            border: "none",
-            borderRadius: "10px",
-            cursor: "pointer",
-            transition: "0.3s"
-          }}
-        >
+          className={style.logOutBtn}>
           Вийти
         </button>
       </div>

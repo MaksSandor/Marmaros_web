@@ -31,10 +31,10 @@ function TourDetailsPage() {
               <source src={`http://localhost:3001${tour.mp4}`} type="video/mp4" />
             </video>
             <img src={tour.img} alt={tour.name} className={style.image} />
-            <p className={style.free}>Вільних місць: {tour.freePlaces}</p>
-            <p className={style.max}>Макс. місць: {tour.maxPlaces}</p>
-            <p className={style.price}>Ціна: {tour.price} грн</p>
-            <p>{tour.about}</p>
+            <p className={style.free}><strong>Вільних місць:</strong> {tour.freePlaces}</p>
+            <p className={style.max}><strong>Макс. місць:</strong> {tour.maxPlaces}</p>
+            <p className={style.price}><strong>Ціна:</strong> {tour.price} грн</p>
+            <p className={style.disc}>{tour.about}</p>
         </div>
       </div>
     </div>

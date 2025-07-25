@@ -64,7 +64,7 @@ function Header() {
                       </>
                     )}
 
-                    <img src={facebookLogo} alt="facebook"/>
+                    <img src={facebookLogo} alt="facebook" onClick={() => window.open("https://www.facebook.com/oleksandr.marmaros/", "_blank")}/>
                     <img src={shopLogo} alt="Shoping"/>
                     <img src={searchLogo} alt="search"/>
                 </div>
