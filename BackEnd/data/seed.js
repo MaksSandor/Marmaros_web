@@ -114,7 +114,7 @@ const tours = [
     name: "Спа-тур Шаян",
     img:"/uploads/photos/shayan.jpg",
     price: 4200,
-    old_price: 4200,
+    old_price: 4900,
     special: "5days",
     new: false,
     freePlaces: 2,

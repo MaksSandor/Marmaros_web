@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import Header from "../headerImg/header";
 import style from "./style.module.css"
 import btn_img from "./img/btn.png"
@@ -9,9 +9,19 @@ import glass from "./img/magnifying-glass.png";
 import hand from "./img/handshake.png";
 import call from "./img/call-center.png";
 import avatar from "./img/avatar.png";
+import useTourCards from "../ToursPage/useTourCards"; 
+import TourCarousel from "./TourCarousel";
 
 function MainPage() {
     const navigate = useNavigate();
+    const tours = useTourCards();
+
+
+
+    const hot_tours = useMemo(() => { return tours.filter((tour) => tour.old_price > tour.price) }, [tours]);
+
+
+
     
     return (
         <div>
@@ -81,6 +91,16 @@ function MainPage() {
                             <p>З 2017 року наша команда запровадила організацію відправлень в Карпати майже зі всіх регіонів.</p>
                         </div>
                     </div>
+                </div>
+                    <div className={style.hot_tours}>
+                    {hot_tours.length === 0 ? (
+                      <p style={{ padding: "20px" }}>Наразі немає турів зі знижками.</p>
+                    ) : (
+                      <TourCarousel tours={hot_tours} />
+                    )}
+                    </div>
+                <div>
+                    <p> ///</p>
                 </div>
 
                 
