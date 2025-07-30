@@ -72,7 +72,7 @@ function Header() {
 
 
             <div className={header_style.bottom_block}>
-                <img src={marmarosLogo} alt="MarMaros" className={header_style.marmarlogo}/>
+                <img src={marmarosLogo} alt="MarMaros" className={header_style.marmarlogo} onClick={() => navigate("/")}/>
                 
                 <div className={header_style.pages_block}>
                     <button

@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+
+.about {
+    font-family: 'Oxygen', sans-serif;
+    padding: 20px;
+    margin: 40px;
+    width: 720px;
+    align-items: center;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 350px;
+    background-color: rgba(218, 218, 218, 0.123);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.248);
+}
+
+.about img {
+    width: 300px;
+    height: auto;
+    padding: 20px;
+}
+
+.about p {
+    padding: 10px;
+}
+
+.firstP {
+
+}
+
+.secondP {
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+}

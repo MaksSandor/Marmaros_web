@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React, {useMemo, useEffect} from "react";
 import Header from "../headerImg/header";
 import style from "./style.module.css"
 import btn_img from "./img/btn.png"
@@ -11,17 +11,13 @@ import call from "./img/call-center.png";
 import avatar from "./img/avatar.png";
 import useTourCards from "../ToursPage/useTourCards"; 
 import TourCarousel from "./TourCarousel";
+import Footer from "../footer/footer"
 
 function MainPage() {
     const navigate = useNavigate();
     const tours = useTourCards();
 
-
-
     const hot_tours = useMemo(() => { return tours.filter((tour) => tour.old_price > tour.price) }, [tours]);
-
-
-
     
     return (
         <div>
@@ -105,7 +101,7 @@ function MainPage() {
 
                 
             </div>
-
+            <Footer />
         </div>
     )
 }

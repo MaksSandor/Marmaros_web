@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import useTourCards from "./useTourCards";
 import Header from "../headerImg/header";
 import style from "./tour_details_style.module.css";
+import Location from '../location/location';
 
 function TourDetailsPage() {
   const { name } = useParams();
@@ -22,6 +23,7 @@ function TourDetailsPage() {
   return (
     <div>
       <Header />
+      <Location currentPage={`Тури / ${tour.name}`} />
       <div className={style.container}>
         <div className={style.background}></div>
         <div className={style.inContainer}>
