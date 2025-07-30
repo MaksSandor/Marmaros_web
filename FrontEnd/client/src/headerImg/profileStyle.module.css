@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap');
+
+
+
+.Container {
+    width: 40%;
+    text-align: center;
+    margin-left: 30%;
+    margin-top: 30px;
+    background-color: rgba(0, 0, 0, 0.103);
+    border-radius: 20px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 20px;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.575);
+}
+
+.userPh {
+    width: 100px;
+    height: auto;
+}
+
+.Container h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 35px;
+    letter-spacing: 5px;
+    padding-bottom: 20px;
+}
+
+.Container p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+}
+
+.logOutBtn {
+    all:unset;
+    width: 100px;
+    height: 40px;  
+    border-radius: 15px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 600;
+    color: rgb(123, 0, 0);
+    transition: 0.3s;
+}
+
+.logOutBtn:hover {
+    all:unset;
+    transition: 0.3s;
+    width: 120px;
+    height: 40px;  
+    border-radius: 15px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 600;
+    color: rgb(226, 0, 0);
+    font-size: 27px;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.225);
+}

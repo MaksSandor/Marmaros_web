@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap');
+
+
+.main_logo {
+    width: 100%;
+    height: 500px; 
+    background-color: black;
+    background-image: url("./img/main.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: 100;
+    position: relative; 
+}
+
+.marmar {
+    color: white;
+    font-size: 30px;
+    position: relative;
+    top: 90px;
+    left: 600px;
+    opacity: 0.8;
+    letter-spacing: 10px;
+    width: 50px;
+}
+
+.main_logo_txt {
+    width: 100%;
+    height: 350px;
+    background-color: rgba(0, 0, 0, 0.423);
+    position: relative;
+    top: 75px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.main_logo h1 {
+    letter-spacing: 20px;
+    font-size: 120px;              
+    font-weight: bold;
+    color: white;                 
+    text-shadow:
+        2px 2px 4px rgba(0, 0, 0, 0.6); 
+    -webkit-text-stroke: 2px #333;    
+    text-transform: uppercase;     
+    font-family: sans-serif;       
+}
+
+.main_logo h2 {
+    letter-spacing: 3px;
+    font-size: 42px;
+    font-weight: 300;            
+    color: white;               
+    text-align: center;          
+    line-height: 1.4;            
+    margin: 0;
+    padding: 0 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.main_logo_btn {
+    letter-spacing: 2px;
+    display: flex;
+    background-color: orange;
+    width: 250px;
+    height: 50px;
+    align-items: center;
+    color: white;
+    font-weight: 300; 
+    font-size: 25px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    opacity: 0.9;
+    transition: 0.3s;
+}
+
+.main_logo_btn:hover {
+    opacity:1;
+    transform: scale(1.1);
+}
+
+.main_logo_btn img {
+    filter:invert(1);
+    width: 50px;
+    height: auto;
+    margin-left: 25px;
+}
+
+.main {
+    padding-top: 20px;
+    width: 100%;
+    height: 1000px;
+    background-color: rgb(255, 255, 255);
+}
+
+.head_inf {
+    background-color: rgba(0, 0, 0, 0.155);
+    width: 60%;
+    height: 2px;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    line-height: 2px;
+    margin-left: 250px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.248);
+}
+
+.head_inf p {
+    font-size: 15px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    color: rgb(0, 0, 0);
+}
+
+
+
+
+
+.WhyWeAre {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    margin-left: 5%;
+    margin-top: 60px;
+    margin-right: 0;
+    padding: 40px;
+    padding-right: 0;
+    background-color: rgba(0, 0, 0, 0.02);
+    font-family: 'Playfair Display', serif;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.248);
+}
+
+.whyWe_txt {
+    font-size: 40px;
+}
+
+.whyWe_options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+}
+
+.describe_part {
+    flex: 1 1 calc(33.333% - 40px);
+    height: 200px;
+}
+
+.describe_part h1 {
+    font-size: 18px;
+}
+
+.describe_part p {
+    padding-top: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    width: 200px;
+    color: gray;
+}
+
+.describe_part div {
+    display: flex;
+    gap: 20px;
+    height: 80px;
+    align-items: center;
+}
+
+.describe_part img {
+    width: 80px;
+    height: auto;
+}
+
+
+
+

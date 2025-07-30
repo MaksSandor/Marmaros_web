@@ -9,6 +9,9 @@ const tours = [
     name: "Драгобрат",
     img: "/uploads/photos/dragobrat.jpg",
     price: 4300,
+    old_price: 4800,
+    special: "ski",
+    new: true,
     freePlaces: 5,
     maxPlaces: 20,
     about: `
@@ -106,11 +109,14 @@ const tours = [
 
   },
   {
-mp4: "/uploads/videos/shayan.mp4",
+    mp4: "/uploads/videos/shayan.mp4",
     id: 2,
     name: "Спа-тур Шаян",
     img:"/uploads/photos/shayan.jpg",
     price: 4200,
+    old_price: 4900,
+    special: "5days",
+    new: false,
     freePlaces: 2,
     maxPlaces: 15,
     about: `
@@ -155,11 +161,14 @@ mp4: "/uploads/videos/shayan.mp4",
 
   },
   {
-mp4: "/uploads/videos/nezalegnist.mp4",
+    mp4: "/uploads/videos/nezalegnist.mp4",
     id: 3,
     name: "День Незалежності в Карпатах",
     img:  "/uploads/photos/nezalegnist.jpg",
     price: 5200,
+    old_price: 5500,
+    special: "festive",
+    new: true,
     freePlaces: 16,
     maxPlaces: 40,
     about: `
@@ -204,11 +213,14 @@ mp4: "/uploads/videos/nezalegnist.mp4",
 
   },
   {
-mp4: "/uploads/videos/holiday.mp4",
+    mp4: "/uploads/videos/holiday.mp4",
     id: 4,
     name: "Карпати «Тур вихідного дня»",
     img: "/uploads/photos/weekend.jpg",
     price: 3800,
+    old_price: 4000,
+    special: "excursion",
+    new: false,
     freePlaces: 5,
     maxPlaces: 20,
     about: `
@@ -253,11 +265,14 @@ mp4: "/uploads/videos/holiday.mp4",
 
   },
   {
-mp4: "/uploads/videos/odesa.mp4",
+    mp4: "/uploads/videos/odesa.mp4",
     id: 5,
     name: "Одеса",
     img: "/uploads/photos/odesa.jpg",
     price: 3900,
+    old_price: 3900,
+    special: "5days",
+    new: false,
     freePlaces: 2,
     maxPlaces: 15,
     about: `
@@ -300,11 +315,14 @@ mp4: "/uploads/videos/odesa.mp4",
 
   },
   {
-mp4: "/uploads/videos/kyiv.mp4",
+    mp4: "/uploads/videos/kyiv.mp4",
     id: 6,
     name: "Київ",
     img: "/uploads/photos/kyiv.jpg",
     price: 3600,
+    old_price: 3700,
+    special: "excursion",
+    new: true,
     freePlaces: 16,
     maxPlaces: 40,
     about: `

@@ -9,6 +9,7 @@ const commentSchema = new mongoose.Schema({
 
 // Схема для турів
 const tourSchema = new mongoose.Schema({
+  id: Number, // Якщо потрібно власне ID (не _id)
   name: { type: String, required: true },
   img: { type: String }, // Головне фото
   mp4: { type: String }, // Відео
@@ -18,11 +19,14 @@ const tourSchema = new mongoose.Schema({
   maxPlaces: { type: Number },
   about: { type: String },
   new: { type: Boolean, default: false },
-  special: { type: String },
+  special: {
+    type: String,
+    enum: ["5days", "excursion", "ski", "newYear", "festive"]
+  },
 
   date: {
-    firstDay: { type: String },   // або Date
-    lastDay: { type: String },    // або Date
+    firstDay: { type: String },
+    lastDay: { type: String },
     countDays: { type: Number }
   },
 
