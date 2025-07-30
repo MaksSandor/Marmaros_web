@@ -4,6 +4,8 @@ import useTourCards from "./useTourCards";
 import style_cards from "./cards_style.module.css";
 import style_page from "./page_style.module.css";
 import { useNavigate } from "react-router-dom";
+import Footer from "../footer/footer"
+import Location from "../location/location"
 
 function TourPage() {
   const tours = useTourCards();
@@ -14,6 +16,7 @@ function TourPage() {
   return (
     <div className={style_page.page}>
       <Header />
+      <Location currentPage="Тури" />
       <div className={style_page.background}></div>
       <div className={style_cards.second_bg}></div>
       
@@ -33,6 +36,7 @@ function TourPage() {
                     <p className={style_cards.price}>Ціна: {tour.price} грн</p>
                 </div>))}
       </div>
+      <Footer />
     </div>
   );
 }
