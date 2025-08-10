@@ -1,18 +1,15 @@
 const mongoose = require("mongoose");
 
-// Схема для коментарів
 const commentSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   text: String,
   createdAt: { type: Date, default: Date.now },
 });
 
-// Схема для турів
 const tourSchema = new mongoose.Schema({
-  id: Number, // Якщо потрібно власне ID (не _id)
   name: { type: String, required: true },
-  img: { type: String }, // Головне фото
-  mp4: { type: String }, // Відео
+  img: { type: String },
+  mp4: { type: String },
   price: { type: Number, required: true },
   old_price: { type: Number },
   freePlaces: { type: Number },
@@ -23,26 +20,25 @@ const tourSchema = new mongoose.Schema({
     type: String,
     enum: ["5days", "excursion", "ski", "newYear", "festive"]
   },
-
   date: {
-    firstDay: { type: String },
-    lastDay: { type: String },
-    countDays: { type: Number }
+    firstDay: String,
+    lastDay: String,
+    countDays: Number
   },
+  locate: String,
+  food: String,
+  startPlace: String,
+  program: String,
+  addedPay: String,
+  Hotel: String,
+  keyWords: [String],
+  anotherInf: String,
 
-  locate: { type: String },
-  food: { type: String },
-  startPlace: { type: String },
-  program: { type: String },
-  addedPay: { type: String },
-  Hotel: { type: String },
-  keyWords: [{ type: String }],
-  anotherInf: { type: String },
-  Gallery: [{ type: String }],
+  // 🖼️ Галерея фото
+  Gallery: [String], // масив URL-ів
 
-  comments: [commentSchema], // масив коментарів
-},
-{ timestamps: true }
-);
+  // 💬 Коментарі
+  comments: [commentSchema],
+}, { timestamps: true });
 
 module.exports = mongoose.model("Tour", tourSchema);
