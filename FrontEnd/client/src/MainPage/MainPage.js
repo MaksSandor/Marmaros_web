@@ -1,109 +1,163 @@
-import React, {useMemo, useEffect} from "react";
+import React, { useMemo } from "react";
 import Header from "../headerImg/header";
-import style from "./style.module.css"
-import btn_img from "./img/btn.png"
+import style from "./style.module.css";
 import { useNavigate } from "react-router-dom";
-import trophy from "./img/trophy.png";
-import paper from "./img/paper.png";
-import glass from "./img/magnifying-glass.png";
-import hand from "./img/handshake.png";
-import call from "./img/call-center.png";
-import avatar from "./img/avatar.png";
-import useTourCards from "../ToursPage/useTourCards"; 
+import useTourCards from "../ToursPage/useTourCards";
 import TourCarousel from "./TourCarousel";
-import Footer from "../footer/footer"
+import Footer from "../footer/footer";
+
+// Хелпери
+const currency = (n) => `${Number(n || 0).toLocaleString("uk-UA")} грн`;
+
+function Row({ title, tours, onCardClick, subtitle }) {
+  if (!tours || tours.length === 0) return null;
+  return (
+    <section className={style.rowSection}>
+      <div className={style.rowHead}>
+        <h2 className={style.rowTitle}>{title}</h2>
+        {subtitle ? <div className={style.rowSub}>{subtitle}</div> : null}
+      </div>
+      <div className={style.rowScroller}>
+        {tours.map((t) => (
+          <div key={t.id || t._id || t.name} className={style.card} onClick={() => onCardClick(t)}>
+            <div className={style.cardMedia} style={{ backgroundImage: `url(${t.img})` }} />
+            <div className={style.cardShade} />
+            <div className={style.cardBody}>
+              <div className={style.cardTopLine}>
+                {t.new ? <span className={`${style.chip} ${style.chipNew}`}>NEW</span> : null}
+                {t.old_price > t.price ? (
+                  <span className={`${style.chip} ${style.chipSale}`}>
+                    -{Math.round(((t.old_price - t.price) / t.old_price) * 100)}%
+                  </span>
+                ) : null}
+              </div>
+              <h3 className={style.cardTitle}>{t.name}</h3>
+              <div className={style.cardPriceRow}>
+                <span className={style.priceNow}>{currency(t.price)}</span>
+                {t.old_price > t.price ? <span className={style.priceOld}>{currency(t.old_price)}</span> : null}
+              </div>
+              <div className={style.cardMeta}>
+                <span>Вільних: {t.freePlaces ?? "-"}</span>
+                {t.special ? <span className={style.badge}>{t.special}</span> : null}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 function MainPage() {
-    const navigate = useNavigate();
-    const tours = useTourCards();
+  const navigate = useNavigate();
+  const tours = useTourCards();
 
-    const hot_tours = useMemo(() => { return tours.filter((tour) => tour.old_price > tour.price) }, [tours]);
-    
-    return (
-        <div>
-            <Header />
-            <div className={style.main_logo}>
-                <div className={style.main_logo_txt}>
-                    <h1>КАРПАТИ</h1>
-                    <h2>ГОСТИНО ЗАПРОШУЮТЬ<br/> НА ВІДПОЧИНОК</h2>
-                    <div className={style.main_logo_btn} onClick={() => navigate('/tours')}>
-                        <img src={btn_img}/>
-                        <p>БРОНЮВАТИ</p>
-                    </div>
-                </div>
-                <p className={style.marmar}>marmar.com.ua</p>
-            </div>
-            
-            <div className={style.main}>
-                <div className={style.head_inf}>
-                    <p>Тури в Карпати, Закарпаття, поїздки в Карпати, Закарпаття, Карпати, Закарпаття, Лижній тури, Новорічні тури, Мармарос</p>
-                </div>
+  const hotTours = useMemo(
+    () => tours.filter((tour) => Number(tour.old_price) > Number(tour.price)),
+    [tours]
+  );
+  const newTours = useMemo(() => tours.filter((t) => !!t.new).slice(0, 8), [tours]);
 
+  const skiTours = useMemo(() => tours.filter((t) => t.special === "ski").slice(0, 10), [tours]);
+  const festiveTours = useMemo(() => tours.filter((t) => t.special === "festive").slice(0, 10), [tours]);
+  const excursionTours = useMemo(() => tours.filter((t) => t.special === "excursion").slice(0, 10), [tours]);
+  const fiveDaysTours = useMemo(() => tours.filter((t) => t.special === "5days").slice(0, 10), [tours]);
 
-                
-                <div className={style.WhyWeAre}>
-                    <h1 className={style.whyWe_txt}>ЧОМУ МИ?</h1>
-                    <div className={style.whyWe_options}>
-                        <div className={style.describe_part}>
-                            <div>
-                                <img src={glass}/>
-                                <h1>Безпека туристів</h1>
-                            </div>
-                            <p>Кожна особа під час туру застрахована від нещасних випадків на транспорті під час туру.</p>
-                        </div>
-                        <div className={style.describe_part}>
-                            <div>
-                                <img src={call}/>
-                                <h1>Індивідуальний підхід</h1>
-                            </div>
-                            <p>Обговорюємо і підбираємо тур та умови відпочинку з кожний туристом. Враховуємо всі його побажання.</p>
-                        </div>
-                        <div className={style.describe_part}>
-                            <div>
-                                <img src={hand}/>
-                                <h1>Програма лояльності</h1>
-                            </div>
-                            <p>Практикується система знижок для постійних клієнтів, дітей, 2 Місця для ветеранів АТО безкоштовно.</p>
-                        </div>
-                        <div className={style.describe_part}>
-                            <div>
-                                <img src={paper}/>
-                                <h1>Безперервний сезон</h1>
-                            </div>
-                            <p>Кожного тижня протягом року Ви можете відпочити у наших турах незалежно від пори року.</p>
-                        </div>
-                        <div className={style.describe_part}>
-                            <div>
-                                <img src={avatar}/>
-                                <h1>Комфорт і Якість</h1>
-                            </div>
-                            <p>З кожним днем наша команда забезпечує екскурсійні тури все кращими умовами.</p>
-                        </div>
-                        <div className={style.describe_part}>
-                            <div>
-                                <img src={trophy}/>
-                                <h1>Єднаємо країну</h1>
-                            </div>
-                            <p>З 2017 року наша команда запровадила організацію відправлень в Карпати майже зі всіх регіонів.</p>
-                        </div>
-                    </div>
-                </div>
-                    <div className={style.hot_tours}>
-                    {hot_tours.length === 0 ? (
-                      <p style={{ padding: "20px" }}>Наразі немає турів зі знижками.</p>
-                    ) : (
-                      <TourCarousel tours={hot_tours} />
-                    )}
-                    </div>
-                <div>
-                    <p> ///</p>
-                </div>
+  const goDetails = (t) => navigate(`/tours/${t.name}`);
 
-                
-            </div>
-            <Footer />
+  return (
+    <div className={style.page}>
+      <Header />
+
+      {/* HERO */}
+      <section className={style.hero}>
+        <div className={style.heroShade} />
+        <div className={style.heroInner}>
+          <h1 className={style.heroTitle}>КАРПАТИ</h1>
+          <p className={style.heroSub}>Гостинно запрошують на відпочинок</p>
+          <div className={style.heroCtas}>
+            <button className={style.btnGrad} onClick={() => navigate("/tours")}>Дивитись всі тури</button>
+            <a className={style.btnGhost} href="tel:+380688600680">Зателефонувати</a>
+          </div>
+          <div className={style.heroNote}>marmar.com.ua</div>
         </div>
-    )
+      </section>
+
+      <main className={style.main}>
+        {/* короткий опис SEO */}
+        <div className={style.tagline}>
+          Тури в Карпати, Закарпаття, екскурсії, лижні та святкові тури. Працюємо цілий рік — обирайте зручні дати та місто відправлення.
+        </div>
+
+        {/* Гарячі тури: лишаємо ваш карусель */}
+        <section className={style.block}>
+          <div className={style.blockHead}>
+            <h2 className={style.blockTitle}>🔥 Гарячі тури зі знижками</h2>
+          </div>
+          <div className={style.blockBody}>
+            {hotTours.length === 0 ? (
+              <p className={style.empty}>Наразі немає турів зі знижками.</p>
+            ) : (
+              <TourCarousel tours={hotTours} />
+            )}
+          </div>
+        </section>
+
+        {/* Новинки */}
+        <Row
+          title="✨ Новинки"
+          subtitle="Свіжі пропозиції на найближчі дати"
+          tours={newTours}
+          onCardClick={goDetails}
+        />
+
+        {/* Підбірки за критеріями */}
+        <Row title="🎿 Лижні тури" subtitle="Свідовeць, Драгобрат, Буковель" tours={skiTours} onCardClick={goDetails} />
+        <Row title="❄️ Зимові / Святкові" subtitle="Новорічні, Різдвяні, День Незалежності" tours={festiveTours} onCardClick={goDetails} />
+        <Row title="🏛 Екскурсійні" subtitle="Міста, замки, фести" tours={excursionTours} onCardClick={goDetails} />
+        <Row title="🗓 Тур на 5 днів" subtitle="Оптимальний формат для перезавантаження" tours={fiveDaysTours} onCardClick={goDetails} />
+
+        {/* Чому ми — збережено, але стилізовано під новий стиль */}
+        <section className={style.features}>
+          <h2 className={style.sectionTitle}>Чому ми?</h2>
+          <div className={style.featuresGrid}>
+            <div className={style.featureCard}>
+              <div className={style.featureIcon}>🔒</div>
+              <h3>Безпека туристів</h3>
+              <p>Страхування під час подорожі на транспорті в кожному турі.</p>
+            </div>
+            <div className={style.featureCard}>
+              <div className={style.featureIcon}>🎧</div>
+              <h3>Індивідуальний підхід</h3>
+              <p>Підбираємо тур і умови саме під вас, враховуючи побажання.</p>
+            </div>
+            <div className={style.featureCard}>
+              <div className={style.featureIcon}>🤝</div>
+              <h3>Програма лояльності</h3>
+              <p>Знижки постійним клієнтам, дітям; місця для ветеранів АТО.</p>
+            </div>
+            <div className={style.featureCard}>
+              <div className={style.featureIcon}>🗓</div>
+              <h3>Безперервний сезон</h3>
+              <p>Щотижневі відправлення протягом року, незалежно від пори року.</p>
+            </div>
+            <div className={style.featureCard}>
+              <div className={style.featureIcon}>⭐</div>
+              <h3>Комфорт і якість</h3>
+              <p>Кращі готелі/садиби, перевірені партнери та гіди.</p>
+            </div>
+            <div className={style.featureCard}>
+              <div className={style.featureIcon}>🇺🇦</div>
+              <h3>Єднаємо країну</h3>
+              <p>Відправлення в Карпати майже з усіх регіонів з 2017 року.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
+  );
 }
 
 export default MainPage;

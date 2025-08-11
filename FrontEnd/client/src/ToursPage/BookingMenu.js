@@ -6,13 +6,8 @@ import { FaTimes, FaUser, FaPhone, FaCheck, FaCreditCard, FaBus } from "react-ic
 const withBase = (p) => (!p ? "" : p.startsWith("http") ? p : `http://localhost:3001${p}`);
 const currency = (n) => `${Number(n || 0).toLocaleString("uk-UA")} грн`;
 
-// Типовий макет буса: 10 рядів * 4 сидіння (2 + прохід + 2) = 40 місць
-// Можеш змінити під свій парк (rows, cols, aisleIndex, reservedSeats із бекенду)
-const defaultLayout = {
-  rows: 10,
-  cols: 4,
-  aisleAfterCol: 1, // після якої колонки робимо прохід (0-based)
-};
+// Типовий макет буса
+const defaultLayout = { rows: 10, cols: 4, aisleAfterCol: 1 };
 
 function buildSeatList(layout) {
   const seats = [];
@@ -26,7 +21,28 @@ function buildSeatList(layout) {
   return seats;
 }
 
-// ============ КОМПОНЕНТ MAP СИДІНЬ ============
+// Читаємо юзера/префи з localStorage
+function readUserAndPrefs() {
+  let user = null;
+  try {
+    const raw = localStorage.getItem("user");
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      user = parsed?.user ? parsed.user : parsed;
+    }
+  } catch {}
+  let prefs = {};
+  try {
+    const pr = localStorage.getItem("profilePrefs");
+    prefs = pr ? JSON.parse(pr) : {};
+  } catch {}
+  const PIB = user?.PIB || "";
+  const phone = prefs.phone || user?.phone || "";
+  const phoneVerified = !!(prefs.phoneVerified || user?.phoneVerified);
+  return { user, PIB, phone, phoneVerified };
+}
+
+// ============ КАРТА СИДІНЬ ============
 function SeatMap({ layout = defaultLayout, takenSeats = [], heldSeats = [], selected, onToggle }) {
   const seats = useMemo(() => buildSeatList(layout), [layout]);
   const isTaken = (id) => takenSeats.includes(id);
@@ -39,20 +55,17 @@ function SeatMap({ layout = defaultLayout, takenSeats = [], heldSeats = [], sele
 
       <div
         className={s.seatGrid}
-        style={{
-          gridTemplateColumns: `repeat(${layout.cols + 1}, 1fr)`, // +1 під візуальний прохід
-        }}
+        style={{ gridTemplateColumns: `repeat(${layout.cols + 1}, 1fr)` }}
       >
         {seats.map((seat) => {
           const afterAisle = seat.col === layout.aisleAfterCol + 1;
           const classes = [s.seat];
-        if (isTaken(seat.id)) classes.push(s.seatTaken);
+          if (isTaken(seat.id)) classes.push(s.seatTaken);
           else if (isHeld(seat.id)) classes.push(s.seatHeld);
           else if (isSelected(seat.id)) classes.push(s.seatSelected);
 
           return (
             <React.Fragment key={seat.id}>
-              {/* Сидіння */}
               <button
                 type="button"
                 className={classes.join(" ")}
@@ -63,8 +76,6 @@ function SeatMap({ layout = defaultLayout, takenSeats = [], heldSeats = [], sele
               >
                 {seat.id}
               </button>
-
-              {/* Вставка "порожньої" колонки для проходу після зазначеного індексу */}
               {afterAisle && <div className={s.aisle} aria-hidden />}
             </React.Fragment>
           );
@@ -82,32 +93,66 @@ function SeatMap({ layout = defaultLayout, takenSeats = [], heldSeats = [], sele
 }
 
 // ============ ОСНОВНИЙ МОДАЛ ============
-export default function BookingMenu({
-  open,
-  onClose,
-  tour,        // об'єкт туру (name, price, id, img, ... )
-  layout,      // опціонально свій макет автобуса
-}) {
-  const [step, setStep] = useState(1);
-  const [takenSeats, setTakenSeats] = useState([]);   // із бекенду
-  const [heldSeats, setHeldSeats] = useState([]);     // тимчасово зайняті іншими
-  const [selected, setSelected] = useState([]);       // наш вибір
+export default function BookingMenu({ open, onClose, tour, layout }) {
+  // місця
+  const [takenSeats, setTakenSeats] = useState([]);
+  const [heldSeats, setHeldSeats] = useState([]);
+  const [selected, setSelected] = useState([]);
+
+  // профіль/дані
+  const { user, PIB: storedPIB, phone: storedPhone, phoneVerified: storedVerified } = useMemo(
+    () => readUserAndPrefs(),
+    [open]
+  );
+  const loggedIn = !!user;
 
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [verified, setVerified] = useState(false);
+
+  // sms
   const [codeSent, setCodeSent] = useState(false);
   const [smsCode, setSmsCode] = useState("");
-  const [verified, setVerified] = useState(false);
+
+  // платіж
   const [paying, setPaying] = useState(false);
 
+  // Вираховуємо, які кроки реально потрібні
+  const needDataStep = !(loggedIn && storedPIB);          // немає ПІБ => показати крок "Дані"
+  const needVerifyStep = !(loggedIn && storedVerified);    // телефон не верифікований => показати "Код"
+
+  // Конфігурація кроків (динамічно)
+  const steps = useMemo(() => {
+    const arr = [{ key: "seats", label: "Місця" }];
+    if (needDataStep) arr.push({ key: "data", label: "Дані" });
+    if (needVerifyStep) arr.push({ key: "code", label: "Код" });
+    arr.push({ key: "pay", label: "Оплата" });
+    return arr;
+  }, [needDataStep, needVerifyStep]);
+
+  const [stepIndex, setStepIndex] = useState(0);
+  const step = steps[stepIndex]?.key || "seats";
   const total = useMemo(() => selected.length * (tour?.price || 0), [selected, tour?.price]);
 
-  // 1) ПІДТЯГУЄМО СТАН МІСЦЬ ДЛЯ ТУРУ
+  // INIT при відкритті: підставляємо ПІБ/телефон, статус верифікації
+  useEffect(() => {
+    if (!open) return;
+    setSelected([]);
+    setCodeSent(false);
+    setSmsCode("");
+    setPaying(false);
+
+    setFullName(storedPIB || "");
+    setPhone(storedPhone || "");
+    setVerified(!!storedVerified);
+    setStepIndex(0);
+  }, [open, storedPIB, storedPhone, storedVerified]);
+
+  // завантаження стану місць
   useEffect(() => {
     if (!open || !tour?._id) return;
     (async () => {
       try {
-        // очікуваний бекенд: GET /api/tours/:id/seats => { taken: number[], held: number[] }
         const res = await fetch(`http://localhost:3001/api/tours/${tour._id}/seats`);
         if (res.ok) {
           const data = await res.json();
@@ -121,13 +166,12 @@ export default function BookingMenu({
     })();
   }, [open, tour?._id]);
 
-  // 2) РЕЗЕРВ/ЗНЯТТЯ РЕЗЕРВУ НА ОБРАНІ МІСЦЯ ПІД ЧАС ВИБОРУ
+  // hold seats коли обираємо
   useEffect(() => {
     if (!open || selected.length === 0 || !tour?._id) return;
     let active = true;
     (async () => {
       try {
-        // POST /api/tours/:id/hold { seats: number[] } => { ok: true }
         const res = await fetch(`http://localhost:3001/api/tours/${tour._id}/hold`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -135,7 +179,6 @@ export default function BookingMenu({
         });
         if (!res.ok) throw new Error("hold failed");
         if (active) {
-          // оновлюємо held знову
           const refresh = await fetch(`http://localhost:3001/api/tours/${tour._id}/seats`);
           const data = await refresh.json();
           setHeldSeats(Array.isArray(data.held) ? data.held : []);
@@ -147,7 +190,7 @@ export default function BookingMenu({
     return () => { active = false; };
   }, [selected, open, tour?._id]);
 
-  // 3) ЗНЯТИ РЕЗЕРВ ПРИ ЗАКРИТТІ/UNMOUNT
+  // release seats при закритті
   useEffect(() => {
     return () => {
       if (!tour?._id || selected.length === 0) return;
@@ -161,23 +204,26 @@ export default function BookingMenu({
 
   // TOGGLES
   const toggleSeat = (id) => {
-    setSelected((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
+    setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
-  // STEP HANDLERS
-  const goNext = () => setStep((p) => Math.min(4, p + 1));
-  const goBack = () => setStep((p) => Math.max(1, p - 1));
+  // Навігація по кроках
+  const goNext = () => setStepIndex((i) => Math.min(steps.length - 1, i + 1));
+  const goBack = () => setStepIndex((i) => Math.max(0, i - 1));
 
-  // 4) SMS-КОД: НАДСИЛАННЯ
+  // Валідація перед "Далі"
+  const nextDisabled =
+    (step === "seats" && selected.length === 0) ||
+    (step === "data" && (!fullName || !phone.match(/^\+?380\d{9}$/))) ||
+    (step === "code" && !verified);
+
+  // SMS надсилання/перевірка (бекенд очікується)
   const sendCode = async () => {
     if (!phone.match(/^\+?380\d{9}$/)) {
       alert("Введи номер у форматі +380XXXXXXXXX");
       return;
     }
     try {
-      // POST /api/verify/send { phone } => { ok: true }
       const res = await fetch("http://localhost:3001/api/verify/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -194,10 +240,8 @@ export default function BookingMenu({
     }
   };
 
-  // 5) SMS-КОД: ПІДТВЕРДЖЕННЯ
   const checkCode = async () => {
     try {
-      // POST /api/verify/check { phone, code } => { verified: boolean }
       const res = await fetch("http://localhost:3001/api/verify/check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -215,29 +259,27 @@ export default function BookingMenu({
     }
   };
 
-  // 6) ОПЛАТА (Stripe Checkout як приклад)
+  // Оплата
   const pay = async () => {
-    if (!verified) {
+    if (needVerifyStep && !verified) {
       alert("Спочатку підтверди номер");
       return;
     }
     setPaying(true);
     try {
-      // POST /api/payments/create-checkout-session
-      // { tourId, seats, fullName, phone } => { url }
       const res = await fetch("http://localhost:3001/api/payments/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           tourId: tour._id,
           seats: selected,
-          fullName,
-          phone,
+          fullName: fullName || storedPIB || "",
+          phone: phone || storedPhone || "",
         }),
       });
       const data = await res.json();
       if (res.ok && data.url) {
-        window.location.href = data.url; // редірект на Stripe
+        window.location.href = data.url;
       } else {
         setPaying(false);
         alert(data?.message || "Не вдалося створити сесію оплати");
@@ -264,20 +306,26 @@ export default function BookingMenu({
             <div>
               <h3 className={s.tourName}>{tour.name}</h3>
               <div className={s.tourPrice}>{currency(tour.price)}</div>
+              <div className={s.headerChips}>
+                {loggedIn && <span className={`${s.chip}`}>Вхід: {storedPIB || "Користувач"}</span>}
+                {loggedIn && storedVerified && <span className={`${s.chip} ${s.chipOk}`}>Телефон підтверджено</span>}
+              </div>
             </div>
           </div>
+
           <div className={s.steps}>
-            <div className={`${s.step} ${step >= 1 ? s.stepActive : ""}`}>1. Місця</div>
-            <div className={`${s.step} ${step >= 2 ? s.stepActive : ""}`}>2. Дані</div>
-            <div className={`${s.step} ${step >= 3 ? s.stepActive : ""}`}>3. Код</div>
-            <div className={`${s.step} ${step >= 4 ? s.stepActive : ""}`}>4. Оплата</div>
+            {steps.map((st, idx) => (
+              <div key={st.key} className={`${s.step} ${idx <= stepIndex ? s.stepActive : ""}`}>
+                {idx + 1}. {st.label}
+              </div>
+            ))}
           </div>
         </div>
 
         {/* BODY */}
         <div className={s.body}>
           <div className={s.left}>
-            {step === 1 && (
+            {step === "seats" && (
               <div className={s.card}>
                 <h4>Вибір місць</h4>
                 <SeatMap
@@ -293,7 +341,7 @@ export default function BookingMenu({
               </div>
             )}
 
-            {step === 2 && (
+            {step === "data" && (
               <div className={s.card}>
                 <h4>Дані пасажира</h4>
                 <label className={s.label}><FaUser /> Ім’я та прізвище</label>
@@ -310,18 +358,18 @@ export default function BookingMenu({
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
-                <div className={s.cardNote}>
-                  Номер потрібен для SMS-підтвердження та зв’язку по туру.
-                </div>
+                <div className={s.cardNote}>Номер потрібен для SMS-підтвердження та зв’язку по туру.</div>
               </div>
             )}
 
-            {step === 3 && (
+            {step === "code" && (
               <div className={s.card}>
                 <h4>Підтвердження номера</h4>
                 {!codeSent ? (
                   <>
-                    <p className={s.cardText}>Надішлемо 6-значний код підтвердження на {phone || "вказаний номер"}.</p>
+                    <p className={s.cardText}>
+                      Надішлемо 6-значний код підтвердження на {phone || storedPhone || "вказаний номер"}.
+                    </p>
                     <button className={s.btnGrad} onClick={sendCode}>Надіслати код</button>
                   </>
                 ) : (
@@ -348,17 +396,19 @@ export default function BookingMenu({
               </div>
             )}
 
-            {step === 4 && (
+            {step === "pay" && (
               <div className={s.card}>
                 <h4>Оплата</h4>
                 <p className={s.cardText}>
                   Натисніть “Перейти до оплати”, щоб завершити бронювання. Оплата обробляється через захищений платіжний сервіс.
                 </p>
-                <button className={s.btnPay} onClick={pay} disabled={paying || !verified}>
+                <button className={s.btnPay} onClick={pay} disabled={paying || (needVerifyStep && !verified)}>
                   <FaCreditCard />
                   {paying ? " Створюємо сесію..." : " Перейти до оплати"}
                 </button>
-                {!verified && <div className={s.cardNote}>Спочатку підтвердіть номер SMS-кодом.</div>}
+                {needVerifyStep && !verified && (
+                  <div className={s.cardNote}>Спочатку підтвердіть номер SMS-кодом.</div>
+                )}
               </div>
             )}
           </div>
@@ -366,39 +416,24 @@ export default function BookingMenu({
           <div className={s.right}>
             <div className={s.summary}>
               <h4>Підсумок</h4>
-              <div className={s.sumRow}>
-                <span>Тур:</span> <strong>{tour.name}</strong>
-              </div>
-              <div className={s.sumRow}>
-                <span>Ціна за місце:</span> <strong>{currency(tour.price)}</strong>
-              </div>
-              <div className={s.sumRow}>
-                <span>Обрано місць:</span> <strong>{selected.length}</strong>
-              </div>
-              <div className={s.seatsList}>
-                {selected.length === 0 ? "—" : selected.sort((a,b)=>a-b).join(", ")}
-              </div>
-              <div className={s.total}>
-                Разом: <span>{currency(total)}</span>
-              </div>
+              <div className={s.sumRow}><span>Тур:</span> <strong>{tour.name}</strong></div>
+              <div className={s.sumRow}><span>Ціна за місце:</span> <strong>{currency(tour.price)}</strong></div>
+              <div className={s.sumRow}><span>Обрано місць:</span> <strong>{selected.length}</strong></div>
+              <div className={s.seatsList}>{selected.length === 0 ? "—" : selected.sort((a,b)=>a-b).join(", ")}</div>
+              <div className={s.total}>Разом: <span>{currency(total)}</span></div>
+
               <div className={s.divider} />
               <div className={s.row}>
-                {step > 1 ? <button className={s.btnLight} onClick={goBack}>Назад</button> : <span />}
-                <button
-                  className={s.btnGrad}
-                  onClick={goNext}
-                  disabled={
-                    (step === 1 && selected.length === 0) ||
-                    (step === 2 && (!fullName || !phone)) ||
-                    (step === 3 && (!verified))
-                  }
-                >
-                  {step < 4 ? "Далі" : "До оплати"}
+                {stepIndex > 0 ? (
+                  <button className={s.btnLight} onClick={goBack}>Назад</button>
+                ) : (
+                  <span />
+                )}
+                <button className={s.btnGrad} onClick={goNext} disabled={nextDisabled || stepIndex === steps.length - 1}>
+                  {stepIndex < steps.length - 1 ? "Далі" : "Готово"}
                 </button>
               </div>
-              <div className={s.smallNote}>
-                Натискаючи “Далі”, ви погоджуєтеся з правилами туру.
-              </div>
+              <div className={s.smallNote}>Натискаючи “Далі”, ви погоджуєтеся з правилами туру.</div>
             </div>
           </div>
         </div>

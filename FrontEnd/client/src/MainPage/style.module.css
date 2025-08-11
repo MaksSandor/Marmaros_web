@@ -1,188 +1,186 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@400;700&display=swap');
 
-
-.main_logo {
-    width: 100%;
-    height: 500px; 
-    background-color: black;
-    background-image: url("./img/main.jpg");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    z-index: 100;
-    position: relative; 
-    transform: translateZ(0); 
-    will-change: transform;
+:root{
+  --glass-bg: rgba(255,255,255,0.14);
+  --glass-b: rgba(255,255,255,0.38);
+  --text-dark: #0f1111;
+  --text-dim: #2a2a2a;
+  --grad-main: linear-gradient(90deg,#ff8a00,#e52e71);
+  --grad-sky: linear-gradient(90deg,#7f7fd5,#86a8e7,#91eae4);
 }
 
-.marmar {
-    color: white;
-    font-size: 30px;
-    position: relative;
-    top: 90px;
-    left: 600px;
-    opacity: 0.8;
-    letter-spacing: 10px;
-    width: 50px;
-    margin: 0;
+.page{
+  font-family: "Oxygen", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #fff;
 }
 
-.main_logo_txt {
-    width: 100%;
-    height: 350px;
-    background-color: rgba(0, 0, 0, 0.423);
-    position: relative;
-    top: 75px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
+/* ===== HERO ===== */
+.hero{
+  position: relative;
+  height: 520px;
+  background-image: url("./img/main.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.heroShade{
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,.35), rgba(0,0,0,.55));
+}
+.heroInner{
+  position: relative; z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 10px 18px;
+  text-shadow: 0 6px 28px rgba(0,0,0,.55);
+}
+.heroTitle{
+  text-transform: uppercase;
+  font-size: clamp(44px, 9vw, 110px);
+  line-height: .95;
+  font-weight: 900;
+  letter-spacing: 12px;
+  margin: 0;
+}
+.heroSub{
+  margin: 10px 0 18px;
+  font-size: clamp(18px, 2.2vw, 28px);
+  letter-spacing: 2px;
+}
+.heroCtas{
+  display: inline-flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+}
+.btnGrad{
+  all: unset; cursor: pointer;
+  padding: 12px 20px; border-radius: 12px; color:#fff; font-weight: 900;
+  background: var(--grad-main);
+  box-shadow: 0 14px 34px rgba(229,46,113,.35);
+  transition: transform .2s ease, box-shadow .25s ease, filter .25s ease;
+}
+.btnGrad:hover{ transform: translateY(-2px); box-shadow: 0 18px 42px rgba(229,46,113,.45); }
+.btnGhost{
+  all: unset; cursor: pointer; padding: 12px 20px; border-radius: 12px;
+  background: rgba(255,255,255,.18); color:#fff; font-weight: 900; border: 1px solid rgba(255,255,255,.5);
+}
+.btnGhost:hover{ background: rgba(255,255,255,.3); }
+.heroNote{
+  margin-top: 16px; letter-spacing: 8px; opacity: .9; font-size: 14px;
 }
 
-.main_logo h1 {
-    letter-spacing: 20px;
-    font-size: 120px;              
-    font-weight: bold;
-    color: white;                 
-    text-shadow:
-        2px 2px 4px rgba(0, 0, 0, 0.6); 
-    -webkit-text-stroke: 2px #333;    
-    text-transform: uppercase;     
-    font-family: sans-serif;       
-    margin: 0;
+/* ===== MAIN WRAP ===== */
+.main{
+  width: min(1180px, 94vw);
+  margin: 26px auto 60px;
 }
 
-.main_logo h2 {
-    letter-spacing: 3px;
-    font-size: 36px;
-    font-weight: 300;            
-    color: white;               
-    text-align: center;          
-    line-height: 1.4;            
-    margin: 0;
-    padding: 0 20px;
-    font-family: 'Arial', sans-serif;
-    margin-bottom: 20px;
+/* SEO/теглайн */
+.tagline{
+  background: rgba(0,0,0,.04);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 12px;
+  padding: 12px 14px;
+  text-align: center;
+  color: #222;
 }
 
-.main_logo_btn {
-    letter-spacing: 2px;
-    display: flex;
-    background-color: orange;
-    width: 250px;
-    height: 50px;
-    align-items: center;
-    color: white;
-    font-weight: 300; 
-    font-size: 25px;
-    margin-top: 20px;
-    cursor: pointer;
-    border-radius: 6px;
-    opacity: 0.9;
-    transition: 0.3s;
-    margin: 0;
+/* Блок із каруселлю “Гарячі тури” */
+.block{ margin-top: 26px; }
+.blockHead{ display: flex; align-items: end; justify-content: space-between; gap: 10px; }
+.blockTitle{ margin: 0; font-size: 26px; font-weight: 900; color: var(--text-dark); }
+.blockBody{ margin-top: 10px; }
+.empty{ padding: 16px; text-align: center; opacity: .7; }
+
+/* ===== РЯДИ-КАТЕГОРІЇ (Новинки, Лижні, тощо) ===== */
+.rowSection{ margin-top: 30px; }
+.rowHead{ display:flex; align-items: baseline; gap: 12px; justify-content: space-between; }
+.rowTitle{ margin: 0; font-size: 24px; font-weight: 900; color: var(--text-dark); }
+.rowSub{ color: #555; font-size: 14px; }
+
+.rowScroller{
+  margin-top: 12px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(240px, 1fr);
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-snap-type: x proximity;
 }
+.rowScroller::-webkit-scrollbar{ height: 8px; }
+.rowScroller::-webkit-scrollbar-thumb{ background: rgba(0,0,0,.15); border-radius: 999px; }
 
-.main_logo_btn:hover {
-    opacity:1;
-    transform: scale(1.1);
+/* Картка у рядах (використовується для Row) */
+.card{
+  position: relative;
+  height: 280px; border-radius: 16px; overflow: hidden;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 14px 34px rgba(0,0,0,.14);
+  cursor: pointer;
+  scroll-snap-align: start;
+  background: #fff;
+  transition: transform .18s ease, box-shadow .25s ease, border-color .25s ease;
 }
+.card:hover{ transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,.22); border-color: rgba(0,0,0,.12); }
 
-.main_logo_btn img {
-    filter:invert(1);
-    width: 50px;
-    height: auto;
-    margin-left: 25px;
+.cardMedia{
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  filter: saturate(1.02);
 }
-
-.main {
-    padding-top: 20px;
-    width: 100%;
-    background-color: rgb(255, 255, 255);
+.cardShade{
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.0) 10%, rgba(0,0,0,.45) 65%, rgba(0,0,0,.75) 100%);
 }
-
-.head_inf {
-    background-color: rgba(0, 0, 0, 0.155);
-    width: 60%;
-    height: 2px;
-    align-items: center;
-    padding: 20px;
-    border-radius: 10px;
-    line-height: 2px;
-    margin-left: 250px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.248);
+.cardBody{
+  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 12px; color: #fff;
 }
-
-.head_inf p {
-    font-size: 15px;
-    text-align: center;
-    font-family: 'Arial', sans-serif;
-    font-weight: 500;
-    padding: 0;
-    margin: 0;
-    color: rgb(0, 0, 0);
+.cardTopLine{ position: absolute; top: 10px; left: 10px; display: flex; gap: 6px; }
+.chip{
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 800;
+  padding: 4px 10px; border-radius: 999px;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.5);
 }
+.chipNew{ background: rgba(46,204,113,.22); border-color: rgba(46,204,113,.6); }
+.chipSale{ background: rgba(229,46,113,.22); border-color: rgba(229,46,113,.6); }
+.cardTitle{ margin: 0 0 6px 0; font-size: 18px; font-weight: 900; letter-spacing: .2px; text-shadow: 0 6px 18px rgba(0,0,0,.55); }
+.cardPriceRow{ display: flex; gap: 8px; align-items: baseline; }
+.priceNow{ font-weight: 900; font-size: 18px; color: #fff; }
+.priceOld{ font-size: 14px; opacity: .85; text-decoration: line-through; background: rgba(0,0,0,.28); border-radius: 6px; padding: 2px 6px; }
+.cardMeta{ margin-top: 6px; display: flex; gap: 8px; font-size: 12px; opacity: .95; }
+.badge{ background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.4); padding: 2px 6px; border-radius: 999px; }
 
-
-
-
-
-.WhyWeAre {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    gap: 60px;
-    margin-left: 5%;
-    margin-top: 60px;
-    margin-right: 0;
-    padding: 40px;
-    padding-right: 0;
-    background-color: rgba(0, 0, 0, 0.02);
-    font-family: 'Playfair Display', serif;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.248);
+/* ===== “Чому ми?” ===== */
+.features{ margin-top: 40px; }
+.sectionTitle{ margin: 0 0 12px 0; font-size: 26px; font-weight: 900; color: var(--text-dark); text-align: center; }
+.featuresGrid{
+  display: grid; grid-template-columns: repeat(6,1fr);
+  gap: 12px; margin-top: 20px;
 }
-
-.whyWe_txt {
-    font-size: 40px;
+.featureCard{
+  background: rgba(255,255,255,.9);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 12px 26px rgba(0,0,0,.08);
+  text-align: left;
 }
+.featureIcon{ font-size: 22px; margin-bottom: 6px; }
+.featureCard h3{ margin: 0 0 6px 0; font-size: 16px; font-weight: 900; color: var(--text-dark); }
+.featureCard p{ margin: 0; color: #444; font-size: 14px; }
 
-.whyWe_options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 60px;
+/* ===== Адаптив ===== */
+@media (max-width: 1100px){
+  .featuresGrid{ grid-template-columns: repeat(3,1fr); }
 }
-
-.describe_part {
-    flex: 1 1 calc(33.333% - 40px);
-    height: 200px;
+@media (max-width: 720px){
+  .featuresGrid{ grid-template-columns: repeat(2,1fr); }
+  .hero{ height: 440px; }
 }
-
-.describe_part h1 {
-    font-size: 18px;
+@media (max-width: 480px){
+  .featuresGrid{ grid-template-columns: 1fr; }
 }
-
-.describe_part p {
-    padding-top: 20px;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    width: 200px;
-    color: gray;
-}
-
-.describe_part div {
-    display: flex;
-    gap: 20px;
-    height: 80px;
-    align-items: center;
-}
-
-.describe_part img {
-    width: 80px;
-    height: auto;
-}
-
-
-
-

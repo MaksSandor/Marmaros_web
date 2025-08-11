@@ -1,58 +1,144 @@
-// TourCarousel.js (оновлений)
-import React, { useState } from "react";
-import style from "./TourCarousel.module.css";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import style from "./TourCarousel.module.css";
+
+const currency = (n) => `${Number(n || 0).toLocaleString("uk-UA")} грн`;
 
 function TourCarousel({ tours }) {
-  const [index, setIndex] = useState(0);
-  const locate = useNavigate();
+  const navigate = useNavigate();
+  const scrollerRef = useRef(null);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(false);
+  const [step, setStep] = useState(280); // ширина картки + gap (переобчислю в useEffect)
 
-  const next = () => {
-    if (index < tours.length - 4) setIndex(index + 1);
+  // Переобчислюємо крок прокрутки (ширина картки + column-gap) з реальних стилів
+  const measureStep = useCallback(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const card = el.querySelector(`.${style.card}`);
+    const cardW = card ? card.getBoundingClientRect().width : 260;
+    const gap = parseFloat(getComputedStyle(el).columnGap || "0") || 0;
+    setStep(cardW + gap);
+  }, []);
+
+  const updateButtons = useCallback(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    // невеличкий допуск на пікселі
+    setCanPrev(scrollLeft > 2);
+    setCanNext(scrollLeft + clientWidth < scrollWidth - 2);
+  }, []);
+
+  useEffect(() => {
+    // перша ініціалізація
+    measureStep();
+    // дати браузеру домалювати
+    const t = setTimeout(() => {
+      measureStep();
+      updateButtons();
+    }, 0);
+    const onResize = () => {
+      measureStep();
+      updateButtons();
+    };
+    window.addEventListener("resize", onResize);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [measureStep, updateButtons, tours?.length]);
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const onScroll = () => updateButtons();
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, [updateButtons]);
+
+  const scrollByCard = (dir = 1) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
 
-  const prev = () => {
-    if (index > 0) setIndex(index - 1);
+  const goTour = (tour) => {
+    // локальна навігація без зовнішнього onCardClick
+    navigate(`/tours/${encodeURIComponent(tour.name)}`);
   };
+
+  if (!tours || tours.length === 0) return null;
 
   return (
-    <div className={style.carousel}>
-      <h2 className={style.title}>🔥 Гарячі тури зі знижками</h2>
-      <div className={style.sliderWrapper}>
-        <button className={style.navBtn} onClick={prev}>
-          <FaChevronLeft />
-        </button>
-        <div
-          className={style.slider}
-          style={{ transform: `translateX(-${index * 320}px)` }}
+    <div className={style.carouselWrap}>
+      <div className={style.navLayer}>
+        <button
+          className={`${style.navBtn} ${style.navPrev}`}
+          onClick={() => scrollByCard(-1)}
+          aria-label="Попередні тури"
+          disabled={!canPrev}
         >
-          {tours.map((tour) => (
-            <div key={tour.id} className={style.card}>
-              <div className={style.image}>
-                <img src={tour.img} alt={tour.name} />
-                <div className={style.priceTag}>
-                  <span className={style.oldPrice}>{tour.old_price}₴</span>
-                  <span className={style.newPrice}>{tour.price}₴</span>
+          ‹
+        </button>
+        <button
+          className={`${style.navBtn} ${style.navNext}`}
+          onClick={() => scrollByCard(1)}
+          aria-label="Наступні тури"
+          disabled={!canNext}
+        >
+          ›
+        </button>
+      </div>
+
+      <div className={style.carousel} ref={scrollerRef}>
+        {tours.map((tour) => {
+          const hasSale =
+            Number(tour.old_price) > 0 && Number(tour.old_price) > Number(tour.price);
+          const salePct = hasSale
+            ? Math.round(((tour.old_price - tour.price) / tour.old_price) * 100)
+            : 0;
+
+          return (
+            <div
+              key={tour.id || tour._id || tour.name}
+              className={style.card}
+              onClick={() => goTour(tour)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") goTour(tour);
+              }}
+            >
+              <div
+                className={style.cardMedia}
+                style={{ backgroundImage: `url(${tour.img})` }}
+              />
+              <div className={style.cardShade} />
+              <div className={style.cardBody}>
+                <div className={style.cardTopLine}>
+                  {hasSale && (
+                    <span className={`${style.chip} ${style.chipSale}`}>
+                      -{salePct}%
+                    </span>
+                  )}
+                </div>
+                <h3 className={style.cardTitle}>{tour.name}</h3>
+                <div className={style.cardPriceRow}>
+                  <span className={style.priceNow}>{currency(tour.price)}</span>
+                  {hasSale && (
+                    <span className={style.priceOld}>
+                      {currency(tour.old_price)}
+                    </span>
+                  )}
+                </div>
+                <div className={style.cardMeta}>
+                  <span>Вільних: {tour.freePlaces ?? "-"}</span>
                 </div>
               </div>
-              <div className={style.content}>
-                <h3>{tour.name}</h3>
-                <p className={style.duration}>{tour.special}</p>
-                <p className={style.description}>{tour.about.slice(0, 60)}...</p>
-                <button
-                  className={style.btn}
-                  onClick={() => locate(`/tours/${tour.name}`)}
-                >
-                  Детальніше
-                </button>
-              </div>
             </div>
-          ))}
-        </div>
-        <button className={style.navBtn} onClick={next}>
-          <FaChevronRight />
-        </button>
+          );
+        })}
       </div>
     </div>
   );

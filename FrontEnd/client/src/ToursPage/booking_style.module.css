@@ -144,3 +144,15 @@
   .body { grid-template-columns: 1fr; }
   .right { position: relative; }
 }
+
+.headerChips { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 800;
+  padding: 4px 10px; border-radius: 999px;
+  background: rgba(0,0,0,.06); color: #333; border: 1px solid rgba(0,0,0,.08);
+}
+.chipOk {
+  background: rgba(46,204,113,.14);
+  color: #1a8c50; border-color: rgba(46,204,113,.35);
+}
