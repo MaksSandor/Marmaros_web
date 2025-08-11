@@ -109,7 +109,7 @@
     font-size: 25px;
     font-weight: 500;
     padding: 0;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     font-family: "Lobster", sans-serif;
     text-shadow: 1px -1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255), -1px -1px 0 rgb(255, 255, 255), -1px 1px 0 rgb(255, 255, 255);
 }   
@@ -145,3 +145,146 @@
     filter: blur(2px); 
     z-index: 0;
 }
+
+/* бейджі на картці */
+.badges {
+  position: absolute;
+  top: 10px; left: 10px;
+  display: flex; gap: 6px;
+  z-index: 2;
+}
+.chip {
+  display: inline-flex; align-items: center;
+  font-size: 11px; padding: 4px 8px; border-radius: 999px;
+  background: rgba(0,0,0,.45); color: #fff; backdrop-filter: blur(4px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.18);
+}
+.chipNew { background: linear-gradient(90deg,#5ac8fa,#007aff); }
+.chipSale { background: linear-gradient(90deg,#ff7a59,#ff3b30); }
+
+/* акуратні відступи всередині картки */
+.card {
+  padding-top: 46px; /* місце під бейджі */
+}
+
+/* зображення згладити та підрівняти */
+.img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.7);
+  box-shadow: 0 12px 22px rgba(0,0,0,.22);
+}
+
+/* назва — компактніше */
+.title {
+  font-size: 25px;
+  height: auto;
+  margin: 10px 0 6px;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,.6);
+  margin-bottom:50px;
+}
+
+/* блок місць + міні прогрес-бар */
+.places { height: auto; margin-top: 4px; }
+.free, .max {
+  font-size: 18px; font-weight: 600; color: #ffffff;
+  text-shadow: none; font-family: "Oxygen", sans-serif;
+}
+.free span, .max span { font-size: 20px; color:#00ff3c}
+
+.barMini {
+  height: 8px; border-radius: 999px; overflow: hidden;
+  background: rgba(0,0,0,.15);
+  margin-top: 6px;
+}
+.barMiniFill {
+  height: 100%;
+  background: linear-gradient(90deg,#ff9a44,#ff3d54);
+}
+
+/* ціна — “дорогий” вигляд */
+.priceRow {
+  margin-top: 10px;
+  display: flex; align-items: baseline; gap: 8px; justify-content: center;
+}
+.priceNow {
+  color: #e53935; font-weight: 800; font-size: 20px;
+  text-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+.priceOld {
+  color: #f0f0f0; opacity: .85; text-decoration: line-through;
+  font-size: 14px; font-weight: 500;
+}
+
+/* ховер мʼякший і “дорожчий” */
+.card:hover {
+  transform: translateY(-6px) scale(1.01);
+  opacity: 1;
+  border-color: rgba(255,255,255,.9);
+  box-shadow: 0 16px 32px rgba(0,0,0,.28);
+}
+
+/* відео на фоні — залишаємо, але трохи менше блюру */
+.backgroundVideo { filter: blur(1.5px) brightness(.9); }
+
+/* затемнення/градієнт поверх відео */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.55) 50%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+  z-index: 0;
+}
+
+/* контент займає всю картку */
+.cardContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* фото тепер не таке величезне, щоб залишилось місце під інфо */
+.img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid rgba(255,255,255,0.8);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+}
+
+/* назва і текст світліші, бо фон темний */
+.title {
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+}
+
+/* ціна та місця яскравіше */
+.priceNow {
+  color: #ffda79;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+}
+.priceOld {
+  color: rgba(255,255,255,0.85);
+}
+
+/* бар зайнятості з білим контуром */
+.barMini {
+  background: rgba(255,255,255,0.3);
+}
+.barMiniFill {
+  background: linear-gradient(90deg, #ff9a44, #ff3d54);
+}
+
+

@@ -16,6 +16,8 @@
   width: auto;         
   max-width: 100%;     
   overflow-x: auto;    
+  overflow: visible;
+  height: auto;
 }
 
 

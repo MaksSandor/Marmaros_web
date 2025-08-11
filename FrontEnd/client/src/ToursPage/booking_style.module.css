@@ -1,0 +1,146 @@
+.modal {
+  position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center;
+}
+.backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.45); backdrop-filter: blur(2px);
+}
+.sheet {
+  position: relative; z-index: 1001;
+  width: min(1100px, 92vw); max-height: 92vh;
+  background: rgba(255,255,255,.98); border-radius: 16px;
+  box-shadow: 0 30px 70px rgba(0,0,0,.35);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.close {
+  position: absolute; right: 12px; top: 12px; border: none; background: transparent; cursor: pointer;
+  font-size: 18px; opacity: .7;
+}
+.close:hover { opacity: 1; transform: scale(1.05); }
+
+.header {
+  padding: 14px 18px; border-bottom: 1px solid rgba(0,0,0,.06);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.headerLeft { display: flex; align-items: center; gap: 12px; }
+.tourImg { width: 56px; height: 56px; border-radius: 10px; object-fit: cover; }
+.tourName { margin: 0; font-size: 18px; }
+.tourPrice { color: #e53935; font-weight: 800; }
+
+.steps { display: flex; gap: 8px; }
+.step {
+  font-size: 12px; padding: 6px 10px; border-radius: 999px;
+  background: rgba(0,0,0,.06); color: #333;
+}
+.stepActive { background: linear-gradient(90deg,#ff8a00,#e52e71); color: #fff; }
+
+.body { display: grid; grid-template-columns: 1.35fr .9fr; gap: 18px; padding: 16px; overflow: auto; }
+.left { display: grid; gap: 14px; }
+.right { position: sticky; top: 0; align-self: start; }
+
+.card {
+  background: #fff; border-radius: 14px; padding: 16px;
+  box-shadow: 0 12px 26px rgba(0,0,0,.08);
+}
+.card h4 { margin: 0 0 12px 0; }
+.cardText { white-space: pre-line; line-height: 1.6; }
+.cardNote { font-size: 13px; opacity: .8; margin-top: 8px; }
+
+.label { display: inline-flex; align-items: center; gap: 8px; margin: 8px 0 6px; font-weight: 700; }
+.input {
+  width: 80%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,.12);
+  outline: none;
+}
+.input:focus { border-color: #ff8a00; box-shadow: 0 0 0 3px rgba(255,138,0,.15); }
+
+.row { display: flex; gap: 10px; align-items: center; }
+
+.btnGrad {
+  all: unset; cursor: pointer; padding: 10px 18px; border-radius: 999px; color: #fff;
+  background: linear-gradient(90deg,#ff8a00,#e52e71);
+  box-shadow: 0 12px 24px rgba(229,46,113,.35);
+  transition: transform .2s ease, box-shadow .2s ease, background .3s ease;
+}
+.btnGrad:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 16px 32px rgba(229,46,113,.45);
+  background: linear-gradient(90deg,#ff9f1c,#ff3d71);
+}
+.btnGradOk { background: linear-gradient(90deg,#34c759,#00b894); box-shadow: 0 12px 24px rgba(52,199,89,.35); }
+.btnGradOk:hover { background: linear-gradient(90deg,#5ddf7a,#01c99a); }
+
+.btnLight {
+  all: unset; cursor: pointer; padding: 10px 16px; border-radius: 999px;
+  background: rgba(0,0,0,.06);
+}
+.btnPay {
+  all: unset; cursor: pointer; padding: 12px 20px; border-radius: 12px; color:#fff;
+  background: linear-gradient(90deg,#7f7fd5,#86a8e7,#91eae4);
+  display: inline-flex; align-items: center; gap: 10px;
+  box-shadow: 0 12px 26px rgba(120,150,250,.35);
+}
+.btnPay:disabled { opacity: .6; cursor: not-allowed; }
+
+.okTag {
+  margin-top: 10px; display: inline-block; padding: 6px 10px; border-radius: 999px;
+  background: rgba(52,199,89,.15); color: #24a35a; font-weight: 700;
+}
+
+.summary { background: #fff; border-radius: 14px; padding: 16px; box-shadow: 0 12px 26px rgba(0,0,0,.08); }
+.sumRow { display: flex; justify-content: space-between; margin: 4px 0; }
+.seatsList { min-height: 24px; font-weight: 700; }
+.total { margin-top: 10px; font-size: 18px; font-weight: 800; display: flex; justify-content: space-between; }
+.divider { height: 1px; background: rgba(0,0,0,.08); margin: 12px 0; }
+.smallNote { font-size: 12px; opacity: .7; }
+
+/* ---- СХЕМА СИДІНЬ ---- */
+.seatMapWrap { }
+.busHead {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 10px; border-radius: 10px; margin-bottom: 8px;
+  background: rgba(0,0,0,.06);
+}
+
+.seatGrid {
+  display: grid; gap: 10px; align-items: center;
+  /* Додаємо ледь видимий фон, щоб контур сидінь був виразніший */
+  background: rgba(0,0,0,.03);
+  padding: 12px; border-radius: 12px;
+}
+.aisle { width: 100%; height: 100%; }
+
+.seat {
+  all: unset; cursor: pointer;
+  display: grid; place-items: center;
+  height: 42px; border-radius: 10px; font-weight: 700;
+  background: linear-gradient(180deg,#ffffff,#f2f2f2);
+  border: 1px solid rgba(0,0,0,.12);
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);
+}
+.seat:hover { transform: translateY(-1px); box-shadow: 0 10px 18px rgba(0,0,0,.12); }
+
+.seatSelected {
+  background: linear-gradient(180deg,#ffe0cc,#ffd1eb);
+  border-color: #ff8a00;
+}
+.seatHeld {
+  background: #fff7e6;
+  border-color: #ffb84d;
+}
+.seatTaken {
+  background: #f0f0f0; color: #9b9b9b;
+  border-style: dashed; cursor: not-allowed;
+}
+
+.legend {
+  margin-top: 10px; display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; opacity: .9;
+}
+.legendDot { width: 12px; height: 12px; display: inline-block; border-radius: 50%; margin-right: 6px; }
+.legendFree { background: #e0e0e0; }
+.legendSelected { background: #ff8a00; }
+.legendHeld { background: #ffb84d; }
+.legendTaken { background: #bdbdbd; }
+
+@media (max-width: 960px) {
+  .body { grid-template-columns: 1fr; }
+  .right { position: relative; }
+}

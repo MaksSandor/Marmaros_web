@@ -32,7 +32,7 @@ header {
 
 
 
-button {
+.pages_block button {
     /*
     background-image: url("./button.png");
     background-position: center;
@@ -58,7 +58,7 @@ button {
     height: 40px;
     color: rgb(255, 255, 255);
     font-family: "Tinos", sans-serif;
-    font-size: 30px;
+    font-size: 27px;
     transition: 0.5s;
     cursor: pointer;
     font-weight: 600;
@@ -69,7 +69,7 @@ button {
     top: -7px;
 }
 
-button:hover {
+.pages_block button:hover {
     color: #e4a11c;
     width: 140px;
 }
@@ -93,7 +93,7 @@ button:hover {
     margin-right: 70px;
 }
 
-img {
+header img {
     width: 30px;
     height: 30px;
     display:inline;
@@ -125,7 +125,6 @@ img {
 }
 
 .phone_block p {
-    padding-top: 15px;
     font-weight: 700;
     color: white;
 }
@@ -156,7 +155,7 @@ img {
 
 .top_block {
     display: flex;
-    gap: 700px;
+    gap: 800px;
 }
 
 .bottom_block {
@@ -167,7 +166,7 @@ img {
 .pages_block {
     padding-top: 130px;
     display:flex;
-    gap: 40px;
+    gap: 25px;
     position: relative;
     top: -50px;
 }
@@ -186,11 +185,11 @@ img {
 
 .buttonSign {
     all: unset;
-    width: 80px;
+    width: 50px;
     height: 40px;
     color: rgb(255, 227, 174);
     font-family: "Tinos", sans-serif;
-    font-size: 25px;
+    font-size: 20px;
     transition: 0.5s;
     cursor: pointer;
     font-weight: 600;
@@ -200,20 +199,20 @@ img {
 }
 
 .buttonSign:hover {
-    width: 80px;
+    width: 65px;
     color:#ffffff;
     background-color: rgba(255, 255, 255, 0);
     box-shadow: none;
-    font-size:27px;
+    font-size:22px;
 }
 
 .buttonReg {
     all: unset;
-    width: 200px;
+    width: 150px;
     height: 40px;
     color: rgb(255, 227, 174);
     font-family: "Tinos", sans-serif;
-    font-size: 25px;
+    font-size: 20px;
     transition: 0.5s;
     cursor: pointer;
     font-weight: 600;
@@ -222,8 +221,8 @@ img {
 }
 
 .buttonReg:hover {
-    font-size:27px;
-    width: 200px;
+    font-size:22px;
+    width: 175px;
     color:#ffffff;
     background-color: rgba(255, 255, 255, 0);
     box-shadow: none;
