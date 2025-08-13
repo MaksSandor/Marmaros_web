@@ -6,6 +6,12 @@ const commentSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
+// 🔸 Альбом (окремий масив фото)
+const galleryAlbumSchema = new mongoose.Schema({
+  title: { type: String, required: true },       // назва альбому: "День 1", "Зима", "SPA" тощо
+  photos: [{ type: String, required: true }],    // шляхи типу "/uploads/gallery/xxx.jpg"
+}, { _id: true }); // залишаємо _id, щоб зручно посилатися в маршрутах
+
 const tourSchema = new mongoose.Schema({
   name: { type: String, required: true },
   img: { type: String },
@@ -16,15 +22,8 @@ const tourSchema = new mongoose.Schema({
   maxPlaces: { type: Number },
   about: { type: String },
   new: { type: Boolean, default: false },
-  special: {
-    type: String,
-    enum: ["5days", "excursion", "ski", "newYear", "festive"]
-  },
-  date: {
-    firstDay: String,
-    lastDay: String,
-    countDays: Number
-  },
+  special: { type: String, enum: ["5days", "excursion", "ski", "newYear", "festive"] },
+  date: { firstDay: String, lastDay: String, countDays: Number },
   locate: String,
   food: String,
   startPlace: String,
@@ -34,10 +33,10 @@ const tourSchema = new mongoose.Schema({
   keyWords: [String],
   anotherInf: String,
 
-  // 🖼️ Галерея фото
-  Gallery: [String], // масив URL-ів
+  // 🖼️ Старе поле (якщо було): Gallery: [String]
+  // 🔸 НОВЕ: масив альбомів
+  galleries: [galleryAlbumSchema],
 
-  // 💬 Коментарі
   comments: [commentSchema],
 }, { timestamps: true });
 

@@ -1,25 +1,23 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  PIB: {
-    type: String,
-    required: true
-  },
-  gmail: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  verification: {
-    type: Boolean,
-    default: false
-  }
-});
+  lastName: { type: String, required: true },        // Прізвище
+  firstName: { type: String, required: true },       // Ім'я
+  middleName: { type: String },                      // По батькові
 
-const User = mongoose.model('User', userSchema);
+  age: { type: Number },                             // Вік
+  gender: { type: String, enum: ["male", "female", "other"] }, // Стать
 
-module.exports = User;
+  isRegular: { type: Boolean, default: false },      // Постійний клієнт
+  tripsCount: { type: Number, default: 0 },          // К-сть поїздок
+
+  phoneNumber: { type: String, required: true },     // Номер телефону
+  isVerified: { type: Boolean, default: false },     // Підтверджена
+
+  email: { type: String, required: true, unique: true }, // Емейл
+
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }] // Масив коментарів
+}, { timestamps: true });
+
+module.exports = mongoose.model("User", userSchema);
+
