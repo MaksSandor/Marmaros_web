@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
+
 // GET /users - отримати всіх користувачів (без _id і __v)
 router.get('/', async (req, res) => {
   try {
