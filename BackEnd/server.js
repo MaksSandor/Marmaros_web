@@ -21,6 +21,9 @@ app.use("/users", userRoutes);
 const commentRoutes = require("./routes/comments");
 app.use("/api/comments", commentRoutes);
 
+const galleryRoutes = require("./routes/gallery");
+app.use("/gallery", galleryRoutes);
+
 // ✅ ПІДКЛЮЧАЄМО ПІДТВЕРДЖЕННЯ ТЕЛЕФОНУ ДО listen
 const phoneVerifyRoutes = require("./routes/phoneVerify");
 app.use("/phone", phoneVerifyRoutes);
