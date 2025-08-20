@@ -89,9 +89,9 @@ function Header() {
                       Тури
                     </button>
 
-                    <button
+                    <button 
                       onClick={navigateAbout}
-                      className={`${header_style.About} ${location.pathname === '/about' ? header_style.active : ''}`}
+                      className={`${header_style.About}  ${header_style.aboutUsBtn} ${location.pathname === '/about' ? header_style.active : ''}`}
                     >
                       Про нас
                     </button>
@@ -104,14 +104,15 @@ function Header() {
                     </button>
 
                     <button
-                      onClick={navigateTours}
+                      onClick={() => {navigate("/news")}}
                       className={`${header_style.News} ${location.pathname === '/news' ? header_style.active : ''}`}
+
                     >
                       Новини
                     </button>
 
                     <button
-                      onClick={navigateTours}
+                      onClick={() => {navigate("/contacts")}}
                       className={`${header_style.Contacts} ${location.pathname === '/contacts' ? header_style.active : ''}`}
                     >
                       Контакти

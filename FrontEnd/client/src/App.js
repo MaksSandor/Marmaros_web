@@ -6,6 +6,8 @@ import TourPage from "./ToursPage/ToursPage";
 import TourDetailsPage from "./ToursPage/TourDetailsPage";
 import Profile from "./headerImg/profile";
 import Search from "./ToursPage/SearchPage";
+import ContactPage from "./Contact Page/ContactPage";
+import NewsPage from "./NewsPage/NewsPage";
 
 function App() {
 
@@ -24,6 +26,8 @@ function App() {
                 <Route path="/tours/:name" element={<TourDetailsPage />} />
                 <Route path="/:PIB" element={<Profile />} />
                 <Route path="/search" element={<Search/>} />
+                <Route path="/contacts" element={<ContactPage/>} />
+                <Route path="/news" element={<NewsPage/>} />
             </Routes>
         </Router>
     )

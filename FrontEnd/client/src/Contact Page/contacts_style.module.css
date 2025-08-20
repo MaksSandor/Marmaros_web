@@ -1,0 +1,109 @@
+/* Загальний стиль у дусі BookingMenu: градієнти, тіні, чіпси, картки */
+.page { background: #f6f7fb; min-height: 100vh; }
+
+/* HERO */
+.hero {
+  position: relative;
+  height: 260px;
+  background-color: #cdfeff;
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.heroShade {
+  position: absolute; inset: 0;
+  background: linear-gradient(100deg, rgba(0,0,0,.10), rgba(0,0,0,.30));
+}
+.heroInner {
+  position: relative; z-index: 1;
+  max-width: 1200px; margin: 0 auto;
+  height: 100%; display: flex; flex-direction: column; justify-content: center;
+  padding: 0 24px; color: #fff;
+}
+.heroTitle {
+  margin: 0; font-size: 38px; font-weight: 900; letter-spacing: .2px;
+  text-shadow: 0 12px 30px rgba(0,0,0,.45);
+}
+.heroSub { margin-top: 8px; opacity: .95; max-width: 760px; line-height: 1.6; }
+.heroChips { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 999px; font-weight: 800; font-size: 12px;
+}
+.chipSoft { background: rgba(255,255,255,.22); border: 1px solid rgba(255,255,255,.55); }
+.chipGrad { color:#fff; background: linear-gradient(90deg,#ff8a00,#e52e71); box-shadow: 0 8px 22px rgba(229,46,113,.35); }
+
+/* GRID */
+.grid {
+  max-width: 1200px; margin: 24px auto 40px; padding: 0 16px;
+  display: grid; grid-template-columns: 1.05fr 1.2fr; gap: 18px;
+}
+
+/* CARD */
+.card {
+  background: #fff; border-radius: 16px; padding: 18px;
+  box-shadow: 0 18px 42px rgba(0,0,0,.10);
+  border: 1px solid rgba(0,0,0,.06);
+}
+.cardTitle { margin: 0 0 8px 0; font-size: 22px; font-weight: 900; letter-spacing: .2px; }
+.cardText { margin: 6px 0 14px 0; color: #333; opacity: .85; line-height: 1.6; }
+
+/* CONTACTS */
+.contactList { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.contactItem { display: grid; grid-template-columns: 36px 1fr; gap: 10px; align-items: start; }
+.icon {
+  width: 36px; height: 36px; display: grid; place-items: center;
+  border-radius: 10px; background: rgba(0,0,0,.06);
+}
+.cLabel { font-weight: 800; font-size: 12px; text-transform: uppercase; opacity: .65; letter-spacing: .6px; }
+.cValue { font-size: 16px; font-weight: 700; }
+.cValueLink { font-size: 16px; font-weight: 800; color: #1f49a7; text-decoration: none; }
+.cValueLink:hover { text-decoration: underline; }
+
+/* CALLOUT */
+.callout {
+  margin-top: 16px; padding: 14px; border-radius: 14px;
+  background: linear-gradient(90deg,#7f7fd5,#86a8e7,#91eae4);
+  color: #fff; box-shadow: 0 14px 26px rgba(120,150,250,.35);
+}
+.calloutTitle { font-weight: 900; letter-spacing: .2px; }
+.calloutSub { font-weight: 700; opacity: .95; }
+
+/* FORM */
+.form { display: grid; gap: 12px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field { display: grid; gap: 6px; }
+.label { font-weight: 800; font-size: 12px; opacity: .75; letter-spacing: .5px; text-transform: uppercase; }
+
+.input {
+  width: 90%; padding: 12px 14px; border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.12); outline: none; background: #fff;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .08s ease;
+  font-size: 15px;
+}
+.input:focus { border-color: #ff8a00; box-shadow: 0 0 0 4px rgba(255,138,0,.16); transform: translateY(-1px); }
+.textarea { resize: vertical; min-height: 150px; }
+
+/* BUTTONS */
+.btnGrad {
+  all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
+  padding: 12px 18px; border-radius: 12px; color: #fff;
+  background: linear-gradient(90deg,#ff8a00,#e52e71);
+  box-shadow: 0 16px 36px rgba(229,46,113,.35);
+  font-weight: 900; letter-spacing: .2px;
+  transition: transform .2s ease, box-shadow .2s ease, background .3s ease;
+}
+.btnGrad:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 22px 46px rgba(229,46,113,.45); background: linear-gradient(90deg,#ff9f1c,#ff3d71); }
+.btnGrad:disabled { opacity: .65; cursor: not-allowed; }
+
+/* STATES */
+.error, .ok {
+  padding: 10px 12px; border-radius: 12px; font-weight: 800; font-size: 14px;
+}
+.error { background: rgba(229,46,113,.12); color: #b72a59; }
+.ok { background: rgba(52,199,89,.12); color: #24a35a; }
+
+/* RESPONSIVE */
+@media (max-width: 1020px) {
+  .grid { grid-template-columns: 1fr; }
+}
