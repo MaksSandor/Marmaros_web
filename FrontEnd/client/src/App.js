@@ -8,6 +8,7 @@ import Profile from "./headerImg/profile";
 import Search from "./ToursPage/SearchPage";
 import ContactPage from "./Contact Page/ContactPage";
 import NewsPage from "./NewsPage/NewsPage";
+import Gallery from "./GalleryPage/ToursGalleryPage";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/search" element={<Search/>} />
                 <Route path="/contacts" element={<ContactPage/>} />
                 <Route path="/news" element={<NewsPage/>} />
+                <Route path="/gallery" element={<Gallery/>} />
             </Routes>
         </Router>
     )

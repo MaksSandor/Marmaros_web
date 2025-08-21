@@ -1,0 +1,45 @@
+.page { background: #f6f7fb; min-height: 100vh; }
+.container { max-width: 1200px; margin: 16px auto 24px; padding: 0 16px; }
+
+.empty {
+  background: #fff; border: 1px solid rgba(0,0,0,.06); border-radius: 16px;
+  padding: 24px; text-align: center; opacity: .8;
+  box-shadow: 0 14px 34px rgba(0,0,0,.12);
+}
+
+.grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+}
+@media (max-width: 960px){ .grid{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 640px){ .grid{ grid-template-columns: 1fr; } }
+
+.card {
+  position: relative; height: 260px; border-radius: 16px; overflow: hidden;
+  border: 1px solid rgba(0,0,0,.06); box-shadow: 0 14px 34px rgba(0,0,0,.14);
+  background: #fff; transition: transform .18s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(0,0,0,.22); border-color: rgba(0,0,0,.12); }
+
+.cardMedia { position: absolute; inset: 0; background-size: cover; background-position: center; cursor: pointer; }
+.cardShade {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 15%, rgba(0,0,0,.45) 65%, rgba(0,0,0,.85) 100%);
+}
+.cardBody { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; color: #fff; }
+
+.cardTitle { margin: 0 0 6px 0; font-size: 18px; font-weight: 900; text-shadow: 0 10px 26px rgba(0,0,0,.45); }
+.cardPriceRow { display: flex; gap: 8px; align-items: baseline; }
+.priceNow { font-weight: 900; font-size: 18px; }
+.priceOld { font-size: 14px; opacity: .85; text-decoration: line-through; background: rgba(0,0,0,.28); border-radius: 6px; padding: 2px 6px; }
+
+.favToggle {
+  position: absolute; top: 10px; right: 10px;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 999px; border: none; cursor: pointer;
+  background: rgba(255,255,255,.18); color: #fff;
+  border: 1px solid rgba(255,255,255,.6);
+  backdrop-filter: blur(4px);
+  transition: transform .15s ease, box-shadow .2s ease, background .25s ease;
+}
+.favToggle:hover { transform: translateY(-1px) scale(1.05); box-shadow: 0 12px 26px rgba(0,0,0,.18); }
+.favOn { background: linear-gradient(90deg,#ff8a00,#e52e71); box-shadow: 0 12px 26px rgba(229,46,113,.35); border-color: transparent; }

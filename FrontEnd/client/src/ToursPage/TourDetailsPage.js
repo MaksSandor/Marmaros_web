@@ -7,17 +7,10 @@ import Location from "../location/location";
 import Footer from "../footer/footer";
 import s from "./tour_details_style.module.css";
 import BookingMenu from "./BookingMenu";
-import {
-  FaTag,
-  FaUsers,
-  FaBed,
-  FaMapMarkerAlt,
-  FaUtensils,
-  FaCalendarAlt,
-} from "react-icons/fa";
+import { FaTag, FaUsers, FaBed, FaMapMarkerAlt, FaUtensils, FaCalendarAlt } from "react-icons/fa";
+import { toggleFav, isFav } from "../utils/favorites"; // ✅
 
-const withBase = (p) =>
-  !p ? "" : p.startsWith("http") ? p : `http://localhost:3001${p}`;
+const withBase = (p) => (!p ? "" : p.startsWith("http") ? p : `http://localhost:3001${p}`);
 
 function parseAboutToSections(aboutRaw = "") {
   const lines = String(aboutRaw || "").trim().split(/\r?\n/);
@@ -40,7 +33,7 @@ function parseAboutToSections(aboutRaw = "") {
     .filter((x) => x.text);
 }
 
-// дістати id поточного користувача з localStorage (підтримує обидва формати)
+// дістати id поточного користувача з localStorage
 function getCurrentUserId() {
   try {
     const raw = localStorage.getItem("user");
@@ -58,6 +51,11 @@ export default function TourDetailsPage() {
   const tours = useTourCards();
   const tour = useMemo(() => tours.find((t) => t.name === name), [tours, name]);
 
+  // ❤️ улюблене для цього тура
+  const favKey = String(tour?.id || tour?._id || tour?.name || "");
+  const [fav, setFav] = useState(() => (favKey ? isFav(favKey) : false));
+  useEffect(() => { setFav(favKey ? isFav(favKey) : false); }, [favKey]);
+
   // ===== Коментарі =====
   const [comments, setComments] = useState([]);
   const [cLoading, setCLoading] = useState(true);
@@ -70,11 +68,8 @@ export default function TourDetailsPage() {
       if (!tour) return;
       setCLoading(true);
       try {
-        // очікуваний бекенд: GET /api/comments/tour/:name -> масив коментарів
         const res = await fetch(
-          `http://localhost:3001/api/comments/tour/${encodeURIComponent(
-            tour.name
-          )}`
+          `http://localhost:3001/api/comments/tour/${encodeURIComponent(tour.name)}`
         );
         if (res.ok) {
           const data = await res.json();
@@ -89,9 +84,7 @@ export default function TourDetailsPage() {
       }
     }
     loadComments();
-    return () => {
-      active = false;
-    };
+    return () => { active = false; };
   }, [tour]);
 
   async function submitComment(e) {
@@ -105,15 +98,10 @@ export default function TourDetailsPage() {
     if (!text) return;
 
     try {
-      // очікуваний бекенд: POST /api/comments  body: { text, author, tour }
       const res = await fetch("http://localhost:3001/api/comments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          text,
-          author: userId,
-          tour: tour._id, // має бути у відповіді /tours (Mongo _id)
-        }),
+        body: JSON.stringify({ text, author: userId, tour: tour._id }),
       });
       if (res.ok) {
         const created = await res.json();
@@ -138,11 +126,9 @@ export default function TourDetailsPage() {
     );
   }
 
-  const imgSrc = tour.img; // уже абсолютний з useTourCards
-  const videoSrc = withBase(tour.mp4); // робимо абсолютним
-  const gallery = Array.isArray(tour.Gallery)
-    ? tour.Gallery.map(withBase)
-    : [];
+  const imgSrc = tour.img;
+  const videoSrc = withBase(tour.mp4);
+  const gallery = Array.isArray(tour.Gallery) ? tour.Gallery.map(withBase) : [];
 
   const discount =
     tour.old_price && tour.old_price > tour.price
@@ -155,8 +141,7 @@ export default function TourDetailsPage() {
   const free = Number(tour.freePlaces || 0);
   const max = Number(tour.maxPlaces || 0);
   const taken = Math.max(0, max - free);
-  const fill =
-    max > 0 ? Math.min(100, Math.round((taken / max) * 100)) : 0;
+  const fill = max > 0 ? Math.min(100, Math.round((taken / max) * 100)) : 0;
 
   return (
     <div className={s.container}>
@@ -168,88 +153,57 @@ export default function TourDetailsPage() {
       <div className={s.inContainer}>
         {/* HERO */}
         <div className={s.hero}>
-          <h1 className={s.title}>{tour.name}</h1>
+          <div className={s.titleRow}>
+            <h1 className={s.title}>{tour.name}</h1>
+            {/* ❤️ кнопка в заголовку */}
+            {favKey && (
+              <button
+                className={`${s.favBtn} ${fav ? s.favActive : ""}`}
+                onClick={() => { toggleFav(favKey); setFav(isFav(favKey)); }}
+                aria-label={fav ? "Прибрати з улюблених" : "Додати в улюблені"}
+                title={fav ? "Улюблений" : "Додати в улюблені"}
+              >
+                ♥
+              </button>
+            )}
+          </div>
 
           <div className={s.badges}>
-            {tour.new && (
-              <span className={`${s.chip} ${s.chipNew}`}>NEW</span>
-            )}
-            {tour.special && (
-              <span className={s.chip}>
-                <FaTag />
-                &nbsp;{tour.special}
-              </span>
-            )}
-            {discount > 0 && (
-              <span className={`${s.chip} ${s.chipSale}`}>
-                -{discount}%
-              </span>
-            )}
+            {tour.new && <span className={`${s.chip} ${s.chipNew}`}>NEW</span>}
+            {tour.special && <span className={s.chip}><FaTag />&nbsp;{tour.special}</span>}
+            {discount > 0 && <span className={`${s.chip} ${s.chipSale}`}>-{discount}%</span>}
           </div>
 
           {/* ціна + місця */}
           <div className={s.priceBox}>
             <div className={s.priceSide}>
               <div className={s.priceMain}>{tour.price} грн</div>
-              {tour.old_price ? (
-                <div className={s.priceOld}>{tour.old_price} грн</div>
-              ) : null}
+              {tour.old_price ? <div className={s.priceOld}>{tour.old_price} грн</div> : null}
             </div>
 
             <div className={s.avail}>
               <div className={s.labelRow}>
-                <span className={s.availLabel}>
-                  <FaUsers /> Вільно: {free}{" "}
-                </span>
+                <span className={s.availLabel}><FaUsers /> Вільно: {free} </span>
                 {max ? <span className={s.availMax}> із {max}</span> : null}
               </div>
               <div className={s.bar}>
-                <div
-                  className={s.barFill}
-                  style={{ width: `${fill}%` }}
-                />
+                <div className={s.barFill} style={{ width: `${fill}%` }} />
               </div>
             </div>
           </div>
 
-          <button
-            className={s.bookBtnTop}
-            onClick={() => setBookingOpen(true)}
-          >
-            Забронювати
-          </button>
+          <button className={s.bookBtnTop} onClick={() => setBookingOpen(true)}>Забронювати</button>
 
           {/* meta-рядок */}
           <div className={s.metaGrid}>
             {tour.date?.firstDay && tour.date?.lastDay && (
-              <div className={s.metaItem}>
-                <FaCalendarAlt />
-                <span>
-                  {tour.date.firstDay} — {tour.date.lastDay}
-                  {tour.date?.countDays
-                    ? ` • ${tour.date.countDays} дн.`
-                    : ""}
-                </span>
-              </div>
+              <div className={s.metaItem}><FaCalendarAlt /><span>
+                {tour.date.firstDay} — {tour.date.lastDay}{tour.date?.countDays ? ` • ${tour.date.countDays} дн.` : ""}
+              </span></div>
             )}
-            {tour.locate && (
-              <div className={s.metaItem}>
-                <FaMapMarkerAlt />
-                <span>{tour.locate}</span>
-              </div>
-            )}
-            {tour.Hotel && (
-              <div className={s.metaItem}>
-                <FaBed />
-                <span>{tour.Hotel}</span>
-              </div>
-            )}
-            {tour.food && (
-              <div className={s.metaItem}>
-                <FaUtensils />
-                <span>{tour.food}</span>
-              </div>
-            )}
+            {tour.locate && (<div className={s.metaItem}><FaMapMarkerAlt /><span>{tour.locate}</span></div>)}
+            {tour.Hotel && (<div className={s.metaItem}><FaBed /><span>{tour.Hotel}</span></div>)}
+            {tour.food && (<div className={s.metaItem}><FaUtensils /><span>{tour.food}</span></div>)}
           </div>
         </div>
 
@@ -257,12 +211,7 @@ export default function TourDetailsPage() {
         <div className={s.mediaGrid}>
           {videoSrc && (
             <div className={s.mediaItem}>
-              <video
-                className={s.video}
-                controls
-                playsInline
-                poster={imgSrc || undefined}
-              >
+              <video className={s.video} controls playsInline poster={imgSrc || undefined}>
                 <source src={videoSrc} type="video/mp4" />
               </video>
             </div>
@@ -282,7 +231,7 @@ export default function TourDetailsPage() {
           </section>
         ))}
 
-        {/* поля зі схеми, якщо не ввійшли в about */}
+        {/* поля зі схеми */}
         {tour.startPlace && (
           <section className={s.card}>
             <h2>🚍 Місце старту</h2>
@@ -306,13 +255,7 @@ export default function TourDetailsPage() {
         {gallery.length > 0 && (
           <div className={s.gallery}>
             {gallery.map((src, i) => (
-              <img
-                key={i}
-                src={src}
-                alt={`${tour.name} — фото ${i + 1}`}
-                className={s.galleryImage}
-                loading="lazy"
-              />
+              <img key={i} src={src} alt={`${tour.name} — фото ${i + 1}`} className={s.galleryImage} loading="lazy" />
             ))}
           </div>
         )}
@@ -321,24 +264,15 @@ export default function TourDetailsPage() {
         <section className={s.card}>
           <h2 style={{ marginBottom: 10 }}>Коментарі</h2>
 
-          {/* список */}
           <div style={{ display: "grid", gap: 10, marginBottom: 12 }}>
             {cLoading ? (
               <div style={{ opacity: 0.8 }}>Завантаження…</div>
             ) : comments.length === 0 ? (
-              <div style={{ opacity: 0.8 }}>
-                Ще немає коментарів. Будьте першим!
-              </div>
+              <div style={{ opacity: 0.8 }}>Ще немає коментарів. Будьте першим!</div>
             ) : (
               comments.map((c) => {
-                const authorName =
-                  c?.author?.username ||
-                  c?.author?.PIB ||
-                  c?.author?.gmail ||
-                  "Користувач";
-                const dt = c?.createdAt
-                  ? new Date(c.createdAt).toLocaleString("uk-UA")
-                  : "";
+                const authorName = c?.author?.username || c?.author?.PIB || c?.author?.gmail || "Користувач";
+                const dt = c?.createdAt ? new Date(c.createdAt).toLocaleString("uk-UA") : "";
                 return (
                   <div
                     key={c._id || `${c.text}-${dt}`}
@@ -349,39 +283,22 @@ export default function TourDetailsPage() {
                       boxShadow: "0 6px 14px rgba(0,0,0,.06)",
                     }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 8,
-                        marginBottom: 6,
-                        fontWeight: 700,
-                      }}
-                    >
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6, fontWeight: 700 }}>
                       <span>{authorName}</span>
-                      <span style={{ opacity: 0.6, fontWeight: 500 }}>
-                        {dt}
-                      </span>
+                      <span style={{ opacity: 0.6, fontWeight: 500 }}>{dt}</span>
                     </div>
-                    <div style={{ whiteSpace: "pre-line", lineHeight: 1.5 }}>
-                      {c.text}
-                    </div>
+                    <div style={{ whiteSpace: "pre-line", lineHeight: 1.5 }}>{c.text}</div>
                   </div>
                 );
               })
             )}
           </div>
 
-          {/* форма */}
           <form onSubmit={submitComment} style={{ display: "grid", gap: 10 }}>
             <textarea
               value={cText}
               onChange={(e) => setCText(e.target.value)}
-              placeholder={
-                userId
-                  ? "Напишіть свій коментар…"
-                  : "Увійдіть, щоб залишити коментар"
-              }
+              placeholder={userId ? "Напишіть свій коментар…" : "Увійдіть, щоб залишити коментар"}
               disabled={!userId}
               style={{
                 resize: "vertical",
@@ -398,11 +315,10 @@ export default function TourDetailsPage() {
               <button
                 type="submit"
                 disabled={!userId || !cText.trim()}
-                className={s.bookBtn} // використовуємо стиль кнопок із сторінки
+                className={s.bookBtn}
                 style={{
                   all: "unset",
-                  background:
-                    "linear-gradient(90deg,#ff8a00,#e52e71)",
+                  background: "linear-gradient(90deg,#ff8a00,#e52e71)",
                   color: "#fff",
                   padding: "10px 18px",
                   fontSize: 16,
@@ -421,17 +337,10 @@ export default function TourDetailsPage() {
       {/* мобільний/стикі CTA */}
       <div className={s.stickyCta}>
         <div className={s.stickyPrice}>{tour.price} грн</div>
-        <a href="tel:+380688600680" className={s.stickyBtn}>
-          Бронювати
-        </a>
+        <a href="tel:+380688600680" className={s.stickyBtn}>Бронювати</a>
       </div>
 
-      <BookingMenu
-        open={bookingOpen}
-        onClose={() => setBookingOpen(false)}
-        tour={tour}
-        // layout={{ rows: 11, cols: 4, aisleAfterCol: 1 }} // можеш задати свій макет
-      />
+      <BookingMenu open={bookingOpen} onClose={() => setBookingOpen(false)} tour={tour} />
       <Footer />
     </div>
   );

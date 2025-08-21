@@ -149,7 +149,7 @@ header img {
 
 .top_block {
     display: flex;
-    gap: 800px;
+    gap: 700px;
 }
 
 .bottom_block {
@@ -247,4 +247,58 @@ header img {
     white-space: nowrap;
     right: 10px;;
 }
+
+/* Улюблені — кнопка в топбарі */
+.favBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: rgba(0,0,0,0);
+  color: #fff;
+  cursor: pointer;
+  transition: transform .2s ease, opacity .2s ease;
+  font-size: 18px;
+  margin-right: 10px;
+}
+.favBtn:hover { transform: translateY(-1px) scale(1.05); opacity: .9; }
+
+.favBadge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: linear-gradient(90deg,#ff8a00,#e52e71);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 1;
+  padding: 4px 6px;
+  box-shadow: 0 8px 16px rgba(229,46,113,.35);
+}
+
+/* ❤️ favorites у хедері */
+.favWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 2;
+  margin-right: 20px;
+}
+
+.favWrap img {
+  filter: invert(1);
+  width: 28px;
+  height: 28px;
+  transition: 0.2s ease;
+}
+
+.favWrap:hover img {
+  transform: translateY(-2px) scale(1.04);
+}
+
 
