@@ -28,6 +28,10 @@ app.use("/gallery", galleryRoutes);
 const phoneVerifyRoutes = require("./routes/phoneVerify");
 app.use("/phone", phoneVerifyRoutes);
 
+
+const paymentsRoutes = require("./routes/payment");
+app.use("/payments", paymentsRoutes);
+
 // ===== DB
 mongoose
   .connect(process.env.MONGO_URI)
